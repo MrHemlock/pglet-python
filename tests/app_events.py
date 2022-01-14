@@ -1,18 +1,24 @@
-import os,sys,inspect
+import inspect
+import os
+import sys
+
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
-sys.path.insert(0,parentdir)
+sys.path.insert(0, parentdir)
 
 import time
+
 import pglet
-from pglet import Page, Text, Textbox, Button, Progress
+from pglet import Button, Page, Progress, Text, Textbox
 
 page = pglet.page("index", no_window=True)
 page.update(Page(title="Hello, pglet!"))
 page.clean()
 
+
 def say_hello_click_wrong(e):
-    print('This should not be called!')
+    print("This should not be called!")
+
 
 def say_hello_click(e):
     name = page.get_value(txt)
@@ -22,7 +28,8 @@ def say_hello_click(e):
         page.update(txt, btn)
     else:
         page.remove(txt, btn)
-        page.add(Text(value=f'Hello, {name}!'))
+        page.add(Text(value=f"Hello, {name}!"))
+
 
 txt = Textbox(label="Your name", required=True)
 psw = Textbox(label="Password", password=True)

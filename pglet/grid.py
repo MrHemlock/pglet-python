@@ -1,11 +1,26 @@
 from .control import Control
 
+
 # Column
 class Column(Control):
-    def __init__(self, id=None, name=None, icon=None, icon_only=None, 
-        field_name=None, sortable=None, sort_field=None, sorted=None, resizable=None,
-        min_width=None, max_width=None, on_click=None, template_controls=None,
-        new_window=None, expanded=None):
+    def __init__(
+        self,
+        id=None,
+        name=None,
+        icon=None,
+        icon_only=None,
+        field_name=None,
+        sortable=None,
+        sort_field=None,
+        sorted=None,
+        resizable=None,
+        min_width=None,
+        max_width=None,
+        on_click=None,
+        template_controls=None,
+        new_window=None,
+        expanded=None,
+    ):
         Control.__init__(self, id=id)
 
         self.name = name
@@ -27,7 +42,7 @@ class Column(Control):
 
     def _get_control_name(self):
         return "column"
-    
+
     # template_controls
     @property
     def template_controls(self):
@@ -120,8 +135,7 @@ class Column(Control):
     def min_width(self, value):
         assert value == None or isinstance(value, int), "minWidth must be an int"
         self._set_attr("minWidth", value)
-    
-    
+
     # max_width
     @property
     def max_width(self):
@@ -144,6 +158,7 @@ class Column(Control):
 
     def _get_children(self):
         return self.__template_controls
+
 
 # Item
 class Item(Control):
@@ -186,11 +201,12 @@ class Item(Control):
     def _get_control_name(self):
         return "item"
 
+
 # Columns
 class Columns(Control):
     def __init__(self, id=None, columns=None):
         Control.__init__(self, id=id)
-    
+
         self.__columns = []
         if columns != None:
             for column in columns:
@@ -211,11 +227,12 @@ class Columns(Control):
     def _get_children(self):
         return self.__columns
 
+
 # Items
 class Items(Control):
     def __init__(self, id=None, items=None):
         Control.__init__(self, id=None)
-    
+
         self.__map = {}
         self.__items = []
         if items != None:
@@ -244,7 +261,7 @@ class Items(Control):
                     self.__map[obj] = item
                 item._fetch_attrs()
                 items.append(item)
-        
+
         del_objs = []
         for obj, item in self.__map.items():
             if item not in items:
@@ -252,19 +269,42 @@ class Items(Control):
 
         for obj in del_objs:
             del self.__map[obj]
-                
+
         return items
 
+
 class Grid(Control):
-    def __init__(self, id=None, selection_mode=None, compact=None, header_visible=None, shimmer_lines=None,
-            preserve_selection=None,
-            columns=None, items=None, on_select=None, onitem_invoke=None,
-            width=None, height=None, padding=None, margin=None, visible=None, disabled=None):
-        
-        Control.__init__(self, id=id,
-            width=width, height=height, padding=padding, margin=margin,
-            visible=visible, disabled=disabled)
-        
+    def __init__(
+        self,
+        id=None,
+        selection_mode=None,
+        compact=None,
+        header_visible=None,
+        shimmer_lines=None,
+        preserve_selection=None,
+        columns=None,
+        items=None,
+        on_select=None,
+        onitem_invoke=None,
+        width=None,
+        height=None,
+        padding=None,
+        margin=None,
+        visible=None,
+        disabled=None,
+    ):
+
+        Control.__init__(
+            self,
+            id=id,
+            width=width,
+            height=height,
+            padding=padding,
+            margin=margin,
+            visible=visible,
+            disabled=disabled,
+        )
+
         self.selection_mode = selection_mode
         self.compact = compact
         self.header_visible = header_visible
@@ -276,7 +316,7 @@ class Grid(Control):
         self._columns = Columns(columns=columns)
         self._items = Items(items=items)
         self._selected_items = []
-        
+
     def _get_control_name(self):
         return "grid"
 
@@ -297,7 +337,7 @@ class Grid(Control):
     @items.setter
     def items(self, value):
         self._items.items = value
-    
+
     # on_select
     @property
     def on_select(self):
@@ -351,7 +391,9 @@ class Grid(Control):
 
     @header_visible.setter
     def header_visible(self, value):
-        assert value == None or isinstance(value, bool), "header_visible must be a boolean"
+        assert value == None or isinstance(
+            value, bool
+        ), "header_visible must be a boolean"
         self._set_attr("headerVisible", value)
 
     # preserve_selection
@@ -361,7 +403,9 @@ class Grid(Control):
 
     @preserve_selection.setter
     def preserve_selection(self, value):
-        assert value == None or isinstance(value, bool), "preserve_selection must be a boolean"
+        assert value == None or isinstance(
+            value, bool
+        ), "preserve_selection must be a boolean"
         self._set_attr("preserveSelection", value)
 
     # shimmer_lines
@@ -377,7 +421,7 @@ class Grid(Control):
     def _on_select_internal(self, e):
 
         self._selected_items = []
-        for id in e.data.split(' '):
+        for id in e.data.split(" "):
             if id != "":
                 self._selected_items.append(self.page.get_control(id).obj)
 
@@ -385,7 +429,7 @@ class Grid(Control):
             self._on_select_handler(e)
 
     def _get_children(self):
-        result=[]
+        result = []
         result.append(self._columns)
         result.append(self._items)
         return result

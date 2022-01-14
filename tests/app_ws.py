@@ -1,22 +1,22 @@
+import inspect
+import logging
 import os
 import sys
-import inspect
 import time
-import logging
 
-currentdir = os.path.dirname(os.path.abspath(
-    inspect.getfile(inspect.currentframe())))
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir)
 
-from pglet import Page, Stack, Text, Toolbar, Message
 import pglet
+from pglet import Message, Page, Stack, Text, Toolbar
 
 os.environ["PGLET_LOG_LEVEL"] = "debug"
 logging.basicConfig(level=logging.DEBUG)
 
+
 def main(page: Page):
-    print('new session!')
+    print("new session!")
     print("Hash:", page.hash)
     print("Width:", page.width, "Height:", page.height)
     page.on_hash_change = lambda e: print("New page hash", page.hash)

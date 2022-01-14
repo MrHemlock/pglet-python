@@ -1,131 +1,173 @@
-import os,sys,inspect
+import inspect
+import os
+import sys
+
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
-sys.path.insert(0,parentdir)
+sys.path.insert(0, parentdir)
 
 import time
-import pglet
-from pglet import Page, Text, Textbox, Button, Progress, Icon, Link, Toggle, Message, MessageButton, Checkbox, ChoiceGroup, Dropdown
-from pglet import choicegroup
-from pglet import dropdown
-from pglet import nav
-from pglet import Nav, SearchBox, Slider, SpinButton, Tabs, Tab, Dialog, Panel, Toolbar
-from pglet import Grid, Column
-from pglet import VerticalBarChart, BarChart, Callout, LineChart, PieChart
-from pglet import Image
-from pglet import toolbar
-from pglet import button
-from pglet import link
-from pglet import verticalbarchart
-from pglet import barchart
-from pglet import linechart
-from pglet import piechart
 
-class Contact():
+import pglet
+from pglet import (BarChart, Button, Callout, Checkbox, ChoiceGroup, Column,
+                   Dialog, Dropdown, Grid, Icon, Image, LineChart, Link,
+                   Message, MessageButton, Nav, Page, Panel, PieChart,
+                   Progress, SearchBox, Slider, SpinButton, Tab, Tabs, Text,
+                   Textbox, Toggle, Toolbar, VerticalBarChart, barchart,
+                   button, choicegroup, dropdown, linechart, link, nav,
+                   piechart, toolbar, verticalbarchart)
+
+
+class Contact:
     def __init__(self, first_name, last_name):
         self.first_name = first_name
         self.last_name = last_name
 
+
 def link_click(event):
-    print('This link is clicked!')
+    print("This link is clicked!")
+
 
 def toggle_change(event):
-    print('This toggle is changed!')
+    print("This toggle is changed!")
+
 
 def message_dismissed(event):
-    print('This message is dismissed!')
+    print("This message is dismissed!")
+
 
 def checkbox_changed(event):
-    print('This checkbox is changed!')
+    print("This checkbox is changed!")
+
 
 def choicegroup_changed(event):
-    print('This choicegroup is changed!')
+    print("This choicegroup is changed!")
+
 
 def dropdown_changed(event):
-    print('This dropdown is changed!')
+    print("This dropdown is changed!")
+
 
 def navitem_changed(event):
-    print('This navitem is changed!')
+    print("This navitem is changed!")
+
 
 def navitem_expanded(event):
-    print('This navitem is expanded!')
+    print("This navitem is expanded!")
+
 
 def navitem_collapsed(event):
-    print('This navitem is collapsed!')
+    print("This navitem is collapsed!")
+
 
 def searchbox_changed(event):
-    print('This searchbox is changed!')
+    print("This searchbox is changed!")
+
 
 def slider_changed(event):
-    print('This slider is changed!')
+    print("This slider is changed!")
+
 
 def spinbutton_changed(event):
-    print('This spinbutton is changed!')
+    print("This spinbutton is changed!")
+
 
 def tabs_changed(event):
-    print('This tabs is changed!')
+    print("This tabs is changed!")
+
 
 def button_clicked(event):
-    print('This button is clicked!')
+    print("This button is clicked!")
+
 
 def item_clicked(event):
-    print('This item is clicked!')
-
+    print("This item is clicked!")
 
 
 page = pglet.page("index")
 page.update(Page(title="Hello, pglet!"))
 page.clean()
 
-b = Button(primary=False, compound=False, action=False, toolbar=True, split=False, text='This is text', 
-    secondary_text='This is secondary text', url='https://google.com', new_window=True, title='This is title',
-    icon='Mail', icon_color='red', data='data', on_click=button_clicked, items=[
-        button.MenuItem(text='Item1 text', secondary_text='Item1 secondary text', url='https://google.com', new_window=False,
-        icon='Mail', icon_color='blue', icon_only=True, split=False, divider=False, on_click=item_clicked, items=[
-            button.MenuItem('Item1Item1'),
-            button.MenuItem('Item1Item2')
-        ]),
-        button.MenuItem(text='Item2 text')
-    ])
-#page.add(b)
+b = Button(
+    primary=False,
+    compound=False,
+    action=False,
+    toolbar=True,
+    split=False,
+    text="This is text",
+    secondary_text="This is secondary text",
+    url="https://google.com",
+    new_window=True,
+    title="This is title",
+    icon="Mail",
+    icon_color="red",
+    data="data",
+    on_click=button_clicked,
+    items=[
+        button.MenuItem(
+            text="Item1 text",
+            secondary_text="Item1 secondary text",
+            url="https://google.com",
+            new_window=False,
+            icon="Mail",
+            icon_color="blue",
+            icon_only=True,
+            split=False,
+            divider=False,
+            on_click=item_clicked,
+            items=[button.MenuItem("Item1Item1"), button.MenuItem("Item1Item2")],
+        ),
+        button.MenuItem(text="Item2 text"),
+    ],
+)
+# page.add(b)
 
-i = Image(src='https://www.w3schools.com/css/img_5terre.jpg', alt='This is image', title='This is title',
- maximize_frame=False)
-#page.add(i)
+i = Image(
+    src="https://www.w3schools.com/css/img_5terre.jpg",
+    alt="This is image",
+    title="This is title",
+    maximize_frame=False,
+)
+# page.add(i)
 
-#page.add(Text(value='C:\\He\nllo', align='right', width='100%', nowrap=True, size='small'))
-#page.add(Icon(name='Mail', color='green', size='large'))
+# page.add(Text(value='C:\\He\nllo', align='right', width='100%', nowrap=True, size='small'))
+# page.add(Icon(name='Mail', color='green', size='large'))
 
-l = Link(value='Visit google', url='https://google.com', pre=True, align='right', width='100', size='large1', 
-title='Link title', controls=[
-    Text(value='LinkText1'),
-    Text(value='LinkText2')
-])
-#page.add(l)
+l = Link(
+    value="Visit google",
+    url="https://google.com",
+    pre=True,
+    align="right",
+    width="100",
+    size="large1",
+    title="Link title",
+    controls=[Text(value="LinkText1"), Text(value="LinkText2")],
+)
+# page.add(l)
 
-#page.add(Link(value='Start action', url=None, new_window=False, on_click=link_click))
-#page.add(Toggle(value=True, label='This is toggle', on_text='On text', off_text='Off text', 
+# page.add(Link(value='Start action', url=None, new_window=False, on_click=link_click))
+# page.add(Toggle(value=True, label='This is toggle', on_text='On text', off_text='Off text',
 #    inline=True, on_change=toggle_change))
 
-#page.add(Message(value='This is message', dismiss=True, on_dismiss=message_dismissed, buttons=[
+# page.add(Message(value='This is message', dismiss=True, on_dismiss=message_dismissed, buttons=[
 #    MessageButton(text='Yes, I agree', action='Yes'),
 #    MessageButton(text='No, I disagree', action='No')
-#]))
+# ]))
 
-#page.add(Checkbox(value=True, label='I am a human', box_side='start', data='data to pass', on_change=checkbox_changed))
+# page.add(Checkbox(value=True, label='I am a human', box_side='start', data='data to pass', on_change=checkbox_changed))
 
-#page.add(ChoiceGroup(value='colour', label='Select a colour:', data='data to pass', options=[
+# page.add(ChoiceGroup(value='colour', label='Select a colour:', data='data to pass', options=[
 #    choicegroup.Option(key='Green', icon='Shop', icon_color='Green'),
-#    choicegroup.Option(key='Yellow')], 
+#    choicegroup.Option(key='Yellow')],
 #    on_change=choicegroup_changed))
 
-#page.add(Dropdown(id='dd1', label='Choose your weapon', options=[
+# page.add(Dropdown(id='dd1', label='Choose your weapon', options=[
 #    dropdown.Option('Sword'),
 #    dropdown.Option('Word'),
 #    dropdown.Option('Poison')],
 #    on_change=dropdown_changed))
-    
-#page.add(Nav(id='n1', value='n1', items=[
+
+# page.add(Nav(id='n1', value='n1', items=[
 #    nav.Item(key='Item1', items=[
 #        nav.Item('item1.1', items=
 #            [nav.Item(key='item1.1.1', icon='mail', icon_color='green', url='https://google.com', expanded=True, new_window=True),
@@ -136,16 +178,16 @@ title='Link title', controls=[
 #    nav.Item('Item3'),],
 #    on_change=navitem_changed, on_expand=navitem_expanded, on_collapse=navitem_collapsed))
 
-#page.add(SearchBox(value='', placeholder='search for something', underlined=True, icon='mail', 
+# page.add(SearchBox(value='', placeholder='search for something', underlined=True, icon='mail',
 #    icon_color='red', data='data', on_change=True, on_change=searchbox_changed))
 
-#page.add(Slider(value=1, label='To what extend you agree', min=0, max=10, step=1, 
+# page.add(Slider(value=1, label='To what extend you agree', min=0, max=10, step=1,
 #    show_value=True, value_format='current_value is {value}', vertical=False, on_change=slider_changed))
 
-#page.add(SpinButton(value=1, label='Level of satisfaction', min=0, max=10, step=1, 
+# page.add(SpinButton(value=1, label='Level of satisfaction', min=0, max=10, step=1,
 #    icon='mail', width=200, on_change=spinbutton_changed))
 
-#page.add(Tabs(id='t1', value='Tabs101', tabs=[
+# page.add(Tabs(id='t1', value='Tabs101', tabs=[
 #    Tab(text='Tab1', controls=[
 #        Button(text='hello')
 #    ]),
@@ -155,97 +197,137 @@ title='Link title', controls=[
 #    Tab(text='Tab3')],
 #    on_change=tabs_changed))
 
-#d = Dialog(title='Hello', open=True, controls=[
+# d = Dialog(title='Hello', open=True, controls=[
 #    Text(value='Are you sure?')
-#], footer=[
+# ], footer=[
 #    Button(text='OK'),
 #    Button(text="Cancel")
-#])
+# ])
 
-#d.footer.id = "myfooter"
+# d.footer.id = "myfooter"
 
-#page.add(d)
+# page.add(d)
 
-#id = d.footer.id 
-#print(id)
+# id = d.footer.id
+# print(id)
 
-g = Grid(columns=[
-    Column(field_name="first_name", name='First name'),
-    Column(field_name="last_name1", name='Last name')
-], items=[
-    Contact(first_name='Inesa', last_name='Fitsner'),
-    Contact(first_name='Fiodar', last_name='Fitsner')
-])
+g = Grid(
+    columns=[
+        Column(field_name="first_name", name="First name"),
+        Column(field_name="last_name1", name="Last name"),
+    ],
+    items=[
+        Contact(first_name="Inesa", last_name="Fitsner"),
+        Contact(first_name="Fiodar", last_name="Fitsner"),
+    ],
+)
 
-#page.add(g)
+# page.add(g)
 
-p = Panel(title='Hello', open=True, controls=[
-    Text(value='Are you sure?')
-], footer=[
-    Button(text='OK'),
-    Button(text="Cancel")
-])
+p = Panel(
+    title="Hello",
+    open=True,
+    controls=[Text(value="Are you sure?")],
+    footer=[Button(text="OK"), Button(text="Cancel")],
+)
 
-#page.add(p)
+# page.add(p)
 
-t = Toolbar(items=[
-    toolbar.Item(text='Are you sure?')
-], overflow=[
-    toolbar.Item(text='OK'),
-    toolbar.Item(text="Cancel")
-], far=[
-    toolbar.Item(text='far')
-])
+t = Toolbar(
+    items=[toolbar.Item(text="Are you sure?")],
+    overflow=[toolbar.Item(text="OK"), toolbar.Item(text="Cancel")],
+    far=[toolbar.Item(text="far")],
+)
 
-#page.add(t)
+# page.add(t)
 
-vbc = VerticalBarChart(x_type='number', data=[
-    verticalbarchart.P(x='1', y=100),
-    verticalbarchart.P(x='80', y=200), 
-    verticalbarchart.P(x='100', y=300),
-])
+vbc = VerticalBarChart(
+    x_type="number",
+    data=[
+        verticalbarchart.P(x="1", y=100),
+        verticalbarchart.P(x="80", y=200),
+        verticalbarchart.P(x="100", y=300),
+    ],
+)
 
-#page.add(vbc)
+# page.add(vbc)
 
-bc = BarChart(data_mode='default', data=[
-    barchart.P(x=1, y=100),
-    barchart.P(x=80, y=200), 
-    barchart.P(x=100, y=300),
-])
+bc = BarChart(
+    data_mode="default",
+    data=[
+        barchart.P(x=1, y=100),
+        barchart.P(x=80, y=200),
+        barchart.P(x=100, y=300),
+    ],
+)
 
-#page.add(bc)
+# page.add(bc)
+
 
 def button1_clicked(event):
-    print('Button1 is clicked!')
+    print("Button1 is clicked!")
     c.visible = True
     page.update(c)
-    #page.send('set callout1 visible"True"')
+    # page.send('set callout1 visible"True"')
 
-button1 = Button(id='button1', text='Click to see callout', on_click=button1_clicked)
-c = Callout(target='button1', position='leftBottom', gap=100, beak=True, beak_width=10, page_padding=10,
-    focus=False, cover=True, visible=True, controls=[
-        Text(value='This is callout')
-        ])
 
-#page.add(button1, c)
+button1 = Button(id="button1", text="Click to see callout", on_click=button1_clicked)
+c = Callout(
+    target="button1",
+    position="leftBottom",
+    gap=100,
+    beak=True,
+    beak_width=10,
+    page_padding=10,
+    focus=False,
+    cover=True,
+    visible=True,
+    controls=[Text(value="This is callout")],
+)
 
-lc = LineChart(legend=True, tooltips=True, stroke_width=4, y_min=0, y_max=100, y_ticks=2, y_format='{y}%', 
-                x_type='date', datas=[
-                    linechart.Data(color='yellow', legend='yellow color', points=[
-                        linechart.P(x='2015-03-25', y=100),
-                        linechart.P(x='2020-03-25', y=50)]),
-                    linechart.Data(color='green', legend='green color', points=[
-                        linechart.P(x='2021-03-01', y=20),
-                        linechart.P(x='2021-03-31', y=10)])
-                ])
+# page.add(button1, c)
 
-#page.add(lc)
+lc = LineChart(
+    legend=True,
+    tooltips=True,
+    stroke_width=4,
+    y_min=0,
+    y_max=100,
+    y_ticks=2,
+    y_format="{y}%",
+    x_type="date",
+    datas=[
+        linechart.Data(
+            color="yellow",
+            legend="yellow color",
+            points=[
+                linechart.P(x="2015-03-25", y=100),
+                linechart.P(x="2020-03-25", y=50),
+            ],
+        ),
+        linechart.Data(
+            color="green",
+            legend="green color",
+            points=[
+                linechart.P(x="2021-03-01", y=20),
+                linechart.P(x="2021-03-31", y=10),
+            ],
+        ),
+    ],
+)
 
-pc = PieChart(legend=True, tooltips=True, inner_value=40, inner_radius=42, width='100%', data=[
-                    piechart.P(value=20, color='yellow'),
-                    piechart.P(value=30, color='green')])
+# page.add(lc)
+
+pc = PieChart(
+    legend=True,
+    tooltips=True,
+    inner_value=40,
+    inner_radius=42,
+    width="100%",
+    data=[piechart.P(value=20, color="yellow"), piechart.P(value=30, color="green")],
+)
 
 page.add(pc)
 
 
-#page.wait_close()
+# page.wait_close()

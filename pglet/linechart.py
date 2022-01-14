@@ -1,9 +1,18 @@
 from .control import Control
 
+
 # Point
 class Point(Control):
-    def __init__(self, id=None, x=None, y=None, tick=None, legend=None,
-        x_tooltip=None, y_tooltip=None):
+    def __init__(
+        self,
+        id=None,
+        x=None,
+        y=None,
+        tick=None,
+        legend=None,
+        x_tooltip=None,
+        y_tooltip=None,
+    ):
         Control.__init__(self, id=id)
 
         self.x = x
@@ -23,7 +32,7 @@ class Point(Control):
 
     @x.setter
     def x(self, value):
-        #assert value == None or isinstance(value, float) or isinstance(value, int), "x must be a float"  
+        # assert value == None or isinstance(value, float) or isinstance(value, int), "x must be a float"
         self._set_attr("x", value)
 
     # y
@@ -33,7 +42,9 @@ class Point(Control):
 
     @y.setter
     def y(self, value):
-        assert value == None or isinstance(value, float) or isinstance(value, int), "y must be a float"    
+        assert (
+            value == None or isinstance(value, float) or isinstance(value, int)
+        ), "y must be a float"
         self._set_attr("y", value)
 
     # tick
@@ -72,11 +83,12 @@ class Point(Control):
     def y_tooltip(self, value):
         self._set_attr("yTooltip", value)
 
+
 # Data
 class Data(Control):
     def __init__(self, id=None, color=None, legend=None, points=None):
         Control.__init__(self, id=id)
-    
+
         self.color = color
         self.legend = legend
         self.__points = []
@@ -119,13 +131,36 @@ class Data(Control):
 
 
 class LineChart(Control):
-    def __init__(self, id=None, legend=None, tooltips=None, stroke_width=None, 
-            y_min=None, y_max=None, y_ticks=None, y_format=None, x_type=None, lines=None,
-            width=None, height=None, padding=None, margin=None, visible=None, disabled=None):
-        
-        Control.__init__(self, id=id,
-            width=width, height=height, padding=padding, margin=margin,
-            visible=visible, disabled=disabled)
+    def __init__(
+        self,
+        id=None,
+        legend=None,
+        tooltips=None,
+        stroke_width=None,
+        y_min=None,
+        y_max=None,
+        y_ticks=None,
+        y_format=None,
+        x_type=None,
+        lines=None,
+        width=None,
+        height=None,
+        padding=None,
+        margin=None,
+        visible=None,
+        disabled=None,
+    ):
+
+        Control.__init__(
+            self,
+            id=id,
+            width=width,
+            height=height,
+            padding=padding,
+            margin=margin,
+            visible=visible,
+            disabled=disabled,
+        )
 
         self.__lines = []
         if lines != None:
@@ -140,7 +175,7 @@ class LineChart(Control):
         self.y_ticks = y_ticks
         self.y_format = y_format
         self.x_type = x_type
-        
+
     def _get_control_name(self):
         return "linechart"
 
@@ -180,7 +215,7 @@ class LineChart(Control):
 
     @stroke_width.setter
     def stroke_width(self, value):
-        assert value == None or isinstance(value, int), "stroke_width must be a int"   
+        assert value == None or isinstance(value, int), "stroke_width must be a int"
         self._set_attr("strokeWidth", value)
 
     # y_min
@@ -190,7 +225,9 @@ class LineChart(Control):
 
     @y_min.setter
     def y_min(self, value):
-        assert value == None or isinstance(value, float) or isinstance(value, int), "y_min must be a float"  
+        assert (
+            value == None or isinstance(value, float) or isinstance(value, int)
+        ), "y_min must be a float"
         self._set_attr("yMin", value)
 
     # y_max
@@ -200,7 +237,9 @@ class LineChart(Control):
 
     @y_max.setter
     def y_max(self, value):
-        assert value == None or isinstance(value, float) or isinstance(value, int), "y_max must be a float"  
+        assert (
+            value == None or isinstance(value, float) or isinstance(value, int)
+        ), "y_max must be a float"
         self._set_attr("yMax", value)
 
     # y_ticks
@@ -210,7 +249,7 @@ class LineChart(Control):
 
     @y_ticks.setter
     def y_ticks(self, value):
-        assert value == None or isinstance(value, int), "y_ticks must be a int"  
+        assert value == None or isinstance(value, int), "y_ticks must be a int"
         self._set_attr("yTicks", value)
 
     # y_format

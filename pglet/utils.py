@@ -1,9 +1,11 @@
 import platform
-import subprocess  
+import subprocess
+
 
 # https://stackoverflow.com/questions/377017/test-if-executable-exists-in-python
 def which(program):
     import os
+
     def is_exe(fpath):
         return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
 
@@ -18,6 +20,7 @@ def which(program):
                 return exe_file
 
     return None
+
 
 def is_localhost_url(url):
     return "://localhost/" in url or "://localhost:" in url
