@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pglet",
-    py_modules=['pglet'],
+    py_modules=["pglet"],
     version="0.1.0",
     license="MIT",
     author="Appveyor Systems Inc.",
@@ -15,14 +15,14 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/pglet/pglet-python",
     packages=setuptools.find_packages(exclude=("tests",)),
-    python_requires='>=3.7',
-    install_requires=['websocket-client>=1.2.1'],
+    python_requires=">=3.7",
+    install_requires=["websocket-client>=1.2.1"],
     include_package_data=True,
     classifiers=[
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
-    ],    
+    ],
 )

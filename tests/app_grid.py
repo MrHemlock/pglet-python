@@ -7,8 +7,7 @@ parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir)
 
 import pglet
-from pglet import (Button, Checkbox, Column, Grid, Stack, Text, Textbox,
-                   Toolbar, toolbar)
+from pglet import Button, Checkbox, Column, Grid, Stack, Text, Textbox, Toolbar, toolbar
 
 
 class Person:

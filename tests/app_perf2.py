@@ -7,8 +7,18 @@ parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir)
 
 import pglet
-from pglet import (Button, Checkbox, Icon, Page, SearchBox, Stack, Tab, Tabs,
-                   Text, Textbox)
+from pglet import (
+    Button,
+    Checkbox,
+    Icon,
+    Page,
+    SearchBox,
+    Stack,
+    Tab,
+    Tabs,
+    Text,
+    Textbox,
+)
 
 page = pglet.page("index", no_window=True)
 
