@@ -1,6 +1,6 @@
 import pglet
 from pglet import BarChart
-from pglet.barchart import Point
+from pglet.controls.barchart import Point
 
 
 def test_barchart_add():

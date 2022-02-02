@@ -1,6 +1,6 @@
 import pglet
 from pglet import PieChart
-from pglet.piechart import Point
+from pglet.controls.piechart import Point
 
 
 def test_piechart_add():

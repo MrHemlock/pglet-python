@@ -2,7 +2,7 @@ import logging
 from typing import List
 from pglet.protocol import Command
 from pglet.connection import Connection
-from pglet.control import Control
+from pglet.controls.control import Control
 from pglet.control_event import ControlEvent
 from pglet import constants
 import json

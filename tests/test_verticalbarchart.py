@@ -1,6 +1,6 @@
 import pglet
 from pglet import VerticalBarChart
-from pglet.verticalbarchart import Point
+from pglet.controls.verticalbarchart import Point
 
 
 def test_verticalbarchart_add():

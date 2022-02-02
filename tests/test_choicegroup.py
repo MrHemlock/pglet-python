@@ -1,6 +1,5 @@
 import pglet
-from pglet import ChoiceGroup
-from pglet.choicegroup import Option
+from pglet.controls.choicegroup import Option
 
 def test_option():
     opt = Option("key1")

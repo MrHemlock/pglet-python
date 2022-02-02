@@ -1,35 +1,35 @@
-from pglet.control import Control
+from pglet.controls.control import Control
 from pglet.page import Page
-from pglet.stack import Stack
-from pglet.text import Text
-from pglet.textbox import Textbox
-from pglet.checkbox import Checkbox
-from pglet.progress import Progress
-from pglet.button import Button
-from pglet.dropdown import Dropdown
-from pglet.html import Html
-from pglet.icon import Icon
-from pglet.iframe import IFrame
-from pglet.link import Link
-from pglet.toggle import Toggle
-from pglet.message import Message, MessageButton
-from pglet.choicegroup import ChoiceGroup
-from pglet.nav import Nav
-from pglet.searchbox import SearchBox
-from pglet.slider import Slider
-from pglet.spinbutton import SpinButton
-from pglet.spinner import Spinner
-from pglet.tabs import Tabs, Tab
-from pglet.dialog import Dialog
-from pglet.grid import Grid, Columns, Items, Column, Item
-from pglet.panel import Panel
-from pglet.toolbar import Toolbar
-from pglet.verticalbarchart import VerticalBarChart
-from pglet.barchart import BarChart
-from pglet.callout import Callout
-from pglet.image import Image
-from pglet.linechart import LineChart
-from pglet.piechart import PieChart
-from pglet.datepicker import DatePicker
+from pglet.controls.stack import Stack
+from pglet.controls.text import Text
+from pglet.controls.textbox import Textbox
+from pglet.controls.checkbox import Checkbox
+from pglet.controls.progress import Progress
+from pglet.controls.button import Button
+from pglet.controls.dropdown import Dropdown
+from pglet.controls.html import Html
+from pglet.controls.icon import Icon
+from pglet.controls.iframe import IFrame
+from pglet.controls.link import Link
+from pglet.controls.toggle import Toggle
+from pglet.controls.message import Message, MessageButton
+from pglet.controls.choicegroup import ChoiceGroup
+from pglet.controls.nav import Nav
+from pglet.controls.searchbox import SearchBox
+from pglet.controls.slider import Slider
+from pglet.controls.spinbutton import SpinButton
+from pglet.controls.spinner import Spinner
+from pglet.controls.tabs import Tabs, Tab
+from pglet.controls.dialog import Dialog
+from pglet.controls.grid import Grid, Columns, Items, Column, Item
+from pglet.controls.panel import Panel
+from pglet.controls.toolbar import Toolbar
+from pglet.controls.verticalbarchart import VerticalBarChart
+from pglet.controls.barchart import BarChart
+from pglet.controls.callout import Callout
+from pglet.controls.image import Image
+from pglet.controls.linechart import LineChart
+from pglet.controls.piechart import PieChart
+from pglet.controls.datepicker import DatePicker
 from pglet.pglet import *
 from pglet.reconnecting_websocket import *

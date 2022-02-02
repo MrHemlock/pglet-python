@@ -1,7 +1,8 @@
 import pytest
 import pglet
 from pglet import Button
-from pglet import button
+from pglet.controls import button
+
 
 def test_button_primary_must_be_bool():
     with pytest.raises(Exception):
@@ -18,7 +19,7 @@ def test_button_with_all_properties():
         secondary_text='This is secondary text', url='https://google.com', new_window=True, title='This is title',
         icon='Mail', icon_color='red', data='data', menu_items=[
             button.MenuItem(text='Item1 text', secondary_text='Item1 secondary text', url='https://google.com', new_window=False,
-            icon='Mail', icon_color='blue', icon_only=True, split=False, divider=False, sub_menu_items=[
+                            icon='Mail', icon_color='blue', icon_only=True, split=False, divider=False, sub_menu_items=[
                 button.MenuItem('Item1Item1'),
                 button.MenuItem('Item1Item2')
             ]),
