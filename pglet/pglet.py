@@ -1,9 +1,6 @@
 import logging
 import os
 from pathlib import Path
-import subprocess
-import traceback
-from threading import Thread
 import threading
 import traceback
 import signal
@@ -16,7 +13,7 @@ import tarfile
 from pglet.reconnecting_websocket import ReconnectingWebSocket
 from pglet.utils import *
 from pglet.connection import Connection
-from pglet.page import Page
+from pglet.controls.page import Page
 from pglet.event import Event
 from pglet import constants
 

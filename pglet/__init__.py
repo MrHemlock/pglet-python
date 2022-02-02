@@ -1,5 +1,5 @@
 from pglet.controls.control import Control
-from pglet.page import Page
+from pglet.controls.page import Page
 from pglet.controls.stack import Stack
 from pglet.controls.text import Text
 from pglet.controls.textbox import Textbox
