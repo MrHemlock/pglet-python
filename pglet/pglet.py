@@ -1,6 +1,7 @@
 import logging
 import os
 import signal
+import subprocess
 import tarfile
 import tempfile
 import threading
@@ -15,7 +16,7 @@ from pglet.connection import Connection
 from pglet.event import Event
 from pglet.page import Page
 from pglet.reconnecting_websocket import ReconnectingWebSocket
-from pglet.utils import *
+from pglet.utils import get_architecture, get_system, is_localhost_url, open_in_browser, which
 
 
 def page(
@@ -45,8 +46,7 @@ def app(
     permissions=None,
     no_window=False,
 ):
-
-    if target == None:
+    if target is None:
         raise Exception("target argument is not specified")
 
     conn = _connect_internal(
@@ -66,12 +66,12 @@ def app(
     try:
         print("Connected to Pglet app and handling user sessions...")
 
-        if is_windows():
+        if get_system() == "Windows":
             input()
         else:
             terminate.wait()
-    except (Exception) as e:
-        pass
+    except Exception:  # FIXME: Too broad exception
+        pass  # FIXME: Don't ignore exceptions
 
     conn.close()
 
@@ -87,13 +87,13 @@ def _connect_internal(
     no_window=False,
     session_handler=None,
 ):
-    if server == None and web:
+    if server is None and web:
         server = constants.HOSTED_SERVICE_URL
-    elif server == None:
+    elif server is None:
         env_port = os.getenv("PGLET_SERVER_PORT")
         port = (
             env_port
-            if env_port != None and env_port != ""
+            if env_port is not None and env_port != ""
             else constants.PGLET_SERVER_DEFAULT_PORT
         )
         server = f"http://localhost:{port}"
@@ -127,12 +127,12 @@ def _connect_internal(
     conn = Connection(ws)
     conn.on_event = on_event
 
-    if session_handler != None:
+    if session_handler is not None:
         conn.on_session_created = on_session_created
 
     def _on_ws_connect():
-        if conn.page_name == None:
-            conn.page_name = "*" if name == "" or name == None else name
+        if conn.page_name is None:
+            conn.page_name = "*" if name == "" or name is None else name
         result = conn.register_host_client(
             conn.host_client_id, conn.page_name, is_app, update, token, permissions
         )
@@ -167,11 +167,11 @@ def _connect_internal(
 def _start_pglet_server():
     print("Starting Pglet Server in local mode...")
 
-    pglet_exe = "pglet.exe" if is_windows() else "pglet"
+    pglet_exe = "pglet.exe" if get_system() == "Windows" else "pglet"
 
     # check if pglet.exe exists in "bin" directory (user mode)
     p = Path(__file__).parent.joinpath(
-        "bin", f"{get_platform()}-{get_arch()}", pglet_exe
+        "bin", f"{get_system()}-{get_architecture()}", pglet_exe
     )
     if p.exists():
         pglet_path = str(p)
@@ -194,7 +194,7 @@ def _start_pglet_server():
 
     subprocess.run(args, check=True)
 
-
+# TODO: use regex here?
 def _get_ws_url(server: str):
     url = server.rstrip("/")
     if server.startswith("https://"):
@@ -207,7 +207,7 @@ def _get_ws_url(server: str):
 
 
 def _download_pglet():
-    pglet_exe = "pglet.exe" if is_windows() else "pglet"
+    pglet_exe = "pglet.exe" if get_system() == "Windows" else "pglet"
     pglet_bin = Path.home().joinpath(".pglet", "bin")
     pglet_bin.mkdir(parents=True, exist_ok=True)
 
@@ -225,14 +225,14 @@ def _download_pglet():
     if not installed_ver or installed_ver != pglet_version:
         print(f"Downloading Pglet v{pglet_version} to {pglet_path}")
 
-        ext = "zip" if is_windows() else "tar.gz"
-        file_name = f"pglet-{pglet_version}-{get_platform()}-{get_arch()}.{ext}"
+        ext = "zip" if get_system() == "Windows" else "tar.gz"
+        file_name = f"pglet-{pglet_version}-{get_system()}-{get_architecture()}.{ext}"
         pglet_url = f"https://github.com/pglet/pglet/releases/download/v{pglet_version}/{file_name}"
 
         temp_arch = Path(tempfile.gettempdir()).joinpath(file_name)
         try:
             urllib.request.urlretrieve(pglet_url, temp_arch)
-            if is_windows():
+            if get_system() == "Windows":
                 with zipfile.ZipFile(temp_arch, "r") as zip_arch:
                     zip_arch.extractall(pglet_bin)
             else:
@@ -255,5 +255,5 @@ def _get_pglet_version():
 
 
 # Fix: https://bugs.python.org/issue35935
-# if _is_windows():
+# if _get_system() == "Windows":
 #    signal.signal(signal.SIGINT, signal.SIG_DFL)
