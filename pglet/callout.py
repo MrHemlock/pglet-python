@@ -75,23 +75,23 @@ class Callout(Control):
 
     def __init__(
         self,
-        id: Optional[str] = None,
-        target: Optional[str] = None,
+        id: str | None = None,
+        target: str | None = None,
         position: POSITION = None,
-        gap: Optional[int] = None,
-        beak: Optional[bool] = None,
-        beak_width: Optional[int] = None,
-        page_padding: Optional[int] = None,
-        focus: Optional[bool] = None,
-        cover: Optional[bool] = None,
-        visible: Optional[bool] = None,
-        controls: Optional[Iterable[str]] = None,
+        gap: int | None = None,
+        beak: bool | None = None,
+        beak_width: int | None = None,
+        page_padding: int | None = None,
+        focus: bool | None = None,
+        cover: bool | None = None,
+        visible: bool | None = None,
+        controls: Iterable[str] | None = None,
         on_dismiss: Optional[Callable] = None,
-        width: Optional[int] = None,
-        height: Optional[int] = None,
-        padding: Optional[int] = None,
-        margin: Optional[int] = None,
-        disabled: Optional[bool] = None,
+        width: int | None = None,
+        height: int | None = None,
+        padding: int | None = None,
+        margin: int | None = None,
+        disabled: bool | None = None,
     ) -> None:
         """ Initialize a new Callout. """
 
@@ -168,7 +168,7 @@ class Callout(Control):
 
     # target
     @property
-    def target(self) -> Optional[str]:
+    def target(self) -> str | None:
         """ Get the target.
 
         :return: The target.
@@ -177,7 +177,7 @@ class Callout(Control):
         return self._get_attr("target")
 
     @target.setter
-    def target(self, value: Optional[str]) -> None:
+    def target(self, value: str | None) -> None:
         """ Set the target.
 
         :param value: The target.
@@ -207,7 +207,7 @@ class Callout(Control):
 
     # gap
     @property
-    def gap(self) -> Optional[int]:
+    def gap(self) -> int | None:
         """ Get the gap.
 
         :return: The gap.
@@ -217,7 +217,7 @@ class Callout(Control):
 
     @gap.setter
     @beartype
-    def gap(self, value: Optional[int]) -> None:
+    def gap(self, value: int | None) -> None:
         """ Set the gap.
 
         :param value: The gap.
@@ -227,7 +227,7 @@ class Callout(Control):
 
     # beak
     @property
-    def beak(self) -> Optional[bool]:
+    def beak(self) -> bool | None:
         """ Get the beak.
 
         :return: The beak.
@@ -237,7 +237,7 @@ class Callout(Control):
 
     @beak.setter
     @beartype
-    def beak(self, value: Optional[bool]) -> None:
+    def beak(self, value: bool | None) -> None:
         """ Set the beak.
 
         :param value: The beak.
@@ -247,7 +247,7 @@ class Callout(Control):
 
     # beak_width
     @property
-    def beak_width(self) -> Optional[int]:
+    def beak_width(self) -> int | None:
         """ Get the beak_width.
 
         :return: The beak_width.
@@ -257,7 +257,7 @@ class Callout(Control):
 
     @beak_width.setter
     @beartype
-    def beak_width(self, value: Optional[int]) -> None:
+    def beak_width(self, value: int | None) -> None:
         """ Set the beak_width.
 
         :param value: The beak_width.
@@ -267,7 +267,7 @@ class Callout(Control):
 
     # page_padding
     @property
-    def page_padding(self) -> Optional[int]:
+    def page_padding(self) -> int | None:
         """ Get the page_padding.
 
         :return: The page_padding.
@@ -277,7 +277,7 @@ class Callout(Control):
 
     @page_padding.setter
     @beartype
-    def page_padding(self, value: Optional[int]) -> None:
+    def page_padding(self, value: int | None) -> None:
         """ Set the page_padding.
 
         :param value: The page_padding.
@@ -287,7 +287,7 @@ class Callout(Control):
 
     # focus
     @property
-    def focus(self) -> Optional[bool]:
+    def focus(self) -> bool | None:
         """ Get the focus.
 
         :return: The focus.
@@ -297,7 +297,7 @@ class Callout(Control):
 
     @focus.setter
     @beartype
-    def focus(self, value: Optional[bool]) -> None:
+    def focus(self, value: bool | None) -> None:
         """ Set the focus.
 
         :param value: The focus.
@@ -307,7 +307,7 @@ class Callout(Control):
 
     # cover
     @property
-    def cover(self) -> Optional[bool]:
+    def cover(self) -> bool | None:
         """ Get the cover.
 
         :return: The cover.
@@ -317,7 +317,7 @@ class Callout(Control):
 
     @cover.setter
     @beartype
-    def cover(self, value: Optional[bool]) -> None:
+    def cover(self, value: bool | None) -> None:
         """ Set the cover.
 
         :param value: The cover.
