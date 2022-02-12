@@ -69,31 +69,31 @@ class Button(Control):
 
     def __init__(
         self,
-        text: Optional[str] = None,
-        id: Optional[str] = None,
-        primary: Optional[bool] = None,
-        compound: Optional[bool] = None,
-        action: Optional[bool] = None,
-        toolbar: Optional[bool] = None,
-        split: Optional[bool] = None,
-        secondary_text: Optional[str] = None,
-        url: Optional[str] = None,
-        new_window: Optional[bool] = None,
-        title: Optional[str] = None,
-        icon: Optional[str] = None,
-        icon_color: Optional[str] = None,
-        focused: Optional[bool] = None,
-        data: Optional[str] = None,
+        text: str | None = None,
+        id: str | None = None,
+        primary: bool | None = None,
+        compound: bool | None = None,
+        action: bool | None = None,
+        toolbar: bool | None = None,
+        split: bool | None = None,
+        secondary_text: str | None = None,
+        url: str | None = None,
+        new_window: bool | None = None,
+        title: str | None = None,
+        icon: str | None = None,
+        icon_color: str | None = None,
+        focused: bool | None = None,
+        data: str | None = None,
         on_click: Optional[Callable] = None,
         on_focus: Optional[Callable] = None,
         on_blur: Optional[Callable] = None,
-        menu_items: Optional[Iterable[str]] = None,
-        width: Optional[int] = None,
-        height: Optional[int] = None,
-        padding: Optional[int] = None,
-        margin: Optional[int] = None,
-        visible: Optional[bool] = None,
-        disabled: Optional[bool] = None,
+        menu_items: Iterable[str] | None = None,
+        width: int | None = None,
+        height: int | None = None,
+        padding: int | None = None,
+        margin: int | None = None,
+        visible: bool | None = None,
+        disabled: bool | None = None,
     ) -> None:
         """Constructor for the button class."""
         Control.__init__(
@@ -177,7 +177,7 @@ class Button(Control):
 
     # primary
     @property
-    def primary(self) -> Optional[bool]:
+    def primary(self) -> bool | None:
         """ Get the primary property for the button.
 
         :return: The primary property
@@ -187,7 +187,7 @@ class Button(Control):
 
     @primary.setter
     @beartype
-    def primary(self, value: Optional[bool]) -> None:
+    def primary(self, value: bool | None) -> None:
         """ Set the primary property.
 
         :param value: The value to set, defaults to None
@@ -197,7 +197,7 @@ class Button(Control):
 
     # compound
     @property
-    def compound(self) -> Optional[bool]:
+    def compound(self) -> bool | None:
         """ Get the compound property.
 
         :return: The compound property
@@ -207,7 +207,7 @@ class Button(Control):
 
     @compound.setter
     @beartype
-    def compound(self, value: Optional[bool]) -> None:
+    def compound(self, value: bool | None) -> None:
         """ Set the compound property.
 
         :param value: The value to set
@@ -217,7 +217,7 @@ class Button(Control):
 
     # action
     @property
-    def action(self) -> Optional[bool]:
+    def action(self) -> bool | None:
         """ Get the action property.
 
         :return: The action property
@@ -227,7 +227,7 @@ class Button(Control):
 
     @action.setter
     @beartype
-    def action(self, value: Optional[bool]) -> None:
+    def action(self, value: bool | None) -> None:
         """ Set the action property.
 
         :param value: The value to set
@@ -237,7 +237,7 @@ class Button(Control):
 
     # toolbar
     @property
-    def toolbar(self) -> Optional[bool]:
+    def toolbar(self) -> bool | None:
         """ Get the toolbar property.
 
         :return: The toolbar property
@@ -247,7 +247,7 @@ class Button(Control):
 
     @toolbar.setter
     @beartype
-    def toolbar(self, value: Optional[bool]) -> None:
+    def toolbar(self, value: bool | None) -> None:
         """ Set the toolbar property.
 
         :param value: The value to set
@@ -257,7 +257,7 @@ class Button(Control):
 
     # split
     @property
-    def split(self) -> Optional[bool]:
+    def split(self) -> bool | None:
         """ Get the split property.
 
         :return: The split property
@@ -267,7 +267,7 @@ class Button(Control):
 
     @split.setter
     @beartype
-    def split(self, value: Optional[bool]) -> None:
+    def split(self, value: bool | None) -> None:
         """ Set the split property.
 
         :param value: The value to set
@@ -277,7 +277,7 @@ class Button(Control):
 
     # text
     @property
-    def text(self) -> Optional[str]:
+    def text(self) -> str | None:
         """ Get the text property.
 
         :return: The text property
@@ -286,7 +286,7 @@ class Button(Control):
         return self._get_attr("text")
 
     @text.setter
-    def text(self, value: Optional[str]) -> None:
+    def text(self, value: str | None) -> None:
         """ Set the text property.
 
         :param value: The value to set
@@ -296,7 +296,7 @@ class Button(Control):
 
     # secondary_text
     @property
-    def secondary_text(self) -> Optional[str]:
+    def secondary_text(self) -> str | None:
         """ Get the secondary_text property.
 
         :return: The secondary_text property
@@ -305,7 +305,7 @@ class Button(Control):
         return self._get_attr("secondaryText")
 
     @secondary_text.setter
-    def secondary_text(self, value: Optional[str]) -> None:
+    def secondary_text(self, value: str | None) -> None:
         """ Set the secondary_text property.
 
         :param value: The value to set
@@ -315,7 +315,7 @@ class Button(Control):
 
     # url
     @property
-    def url(self) -> Optional[str]:
+    def url(self) -> str | None:
         """ Get the url property.
 
         :return: The url property
@@ -324,7 +324,7 @@ class Button(Control):
         return self._get_attr("url")
 
     @url.setter
-    def url(self, value: Optional[str]) -> None:
+    def url(self, value: str | None) -> None:
         """ Set the url property.
 
         :param value: The value to set
@@ -334,7 +334,7 @@ class Button(Control):
 
     # new_window
     @property
-    def new_window(self) -> Optional[bool]:
+    def new_window(self) -> bool | None:
         """ Get the new_window property.
 
         :return: The new_window property
@@ -344,7 +344,7 @@ class Button(Control):
 
     @new_window.setter
     @beartype
-    def new_window(self, value: Optional[bool]) -> None:
+    def new_window(self, value: bool | None) -> None:
         """ Set the new_window property.
 
         :param value: The value to set
@@ -354,7 +354,7 @@ class Button(Control):
 
     # title
     @property
-    def title(self) -> Optional[str]:
+    def title(self) -> str | None:
         """ Get the title property.
 
         :return: The title property
@@ -363,7 +363,7 @@ class Button(Control):
         return self._get_attr("title")
 
     @title.setter
-    def title(self, value: Optional[str]) -> None:
+    def title(self, value: str | None) -> None:
         """ Set the title property.
 
         :param value: The value to set
@@ -373,7 +373,7 @@ class Button(Control):
 
     # icon
     @property
-    def icon(self) -> Optional[str]:
+    def icon(self) -> str | None:
         """ Get the icon property.
 
         :return: The icon property
@@ -382,7 +382,7 @@ class Button(Control):
         return self._get_attr("icon")
 
     @icon.setter
-    def icon(self, value: Optional[str]) -> None:
+    def icon(self, value: str | None) -> None:
         """ Set the icon property.
 
         :param value: The value to set
@@ -392,7 +392,7 @@ class Button(Control):
 
     # icon_color
     @property
-    def icon_color(self) -> Optional[str]:
+    def icon_color(self) -> str | None:
         """ Get the icon_color property.
 
         :return: The icon_color property
@@ -401,7 +401,7 @@ class Button(Control):
         return self._get_attr("iconColor")
 
     @icon_color.setter
-    def icon_color(self, value: Optional[str]) -> None:
+    def icon_color(self, value: str | None) -> None:
         """ Set the icon_color property.
 
         :param value: The value to set
@@ -419,7 +419,7 @@ class Button(Control):
 
     # focused
     @property
-    def focused(self) -> Optional[bool]:
+    def focused(self) -> bool | None:
         """ Get the focused property.
 
         :return: The focused property
@@ -429,7 +429,7 @@ class Button(Control):
 
     @focused.setter
     @beartype
-    def focused(self, value: Optional[bool]) -> None:
+    def focused(self, value: bool | None) -> None:
         """ Set the focused property.
 
         :param value: The value to set
@@ -525,25 +525,25 @@ class MenuItem(Control):
 
     def __init__(
         self,
-        text: Optional[str] = None,
-        id: Optional[str] = None,
-        secondary_text: Optional[str] = None,
-        url: Optional[str] = None,
-        new_window: Optional[bool] = None,
-        icon: Optional[str] = None,
-        icon_color: Optional[str] = None,
-        icon_only: Optional[bool] = None,
-        split: Optional[bool] = None,
-        divider: Optional[bool] = None,
+        text: str | None = None,
+        id: str | None = None,
+        secondary_text: str | None = None,
+        url: str | None = None,
+        new_window: bool | None = None,
+        icon: str | None = None,
+        icon_color: str | None = None,
+        icon_only: bool | None = None,
+        split: bool | None = None,
+        divider: bool | None = None,
         on_click: Optional[Callable] = None,
-        sub_menu_items: Optional[List[MenuItem]] = None,
-        width: Optional[int] = None,
-        height: Optional[int] = None,
-        padding: Optional[int] = None,
-        margin: Optional[int] = None,
-        visible: Optional[bool] = None,
-        disabled: Optional[bool] = None,
-        data: Optional[Any] = None,
+        sub_menu_items: List[MenuItem] | None = None,
+        width: int | None = None,
+        height: int | None = None,
+        padding: int | None = None,
+        margin: int | None = None,
+        visible: bool | None = None,
+        disabled: bool | None = None,
+        data: Any = None,
     ):
         Control.__init__(
             self,
@@ -620,7 +620,7 @@ class MenuItem(Control):
 
     # text
     @property
-    def text(self) -> Optional[str]:
+    def text(self) -> str | None:
         """ Get the text.
 
         :return: The text
@@ -629,7 +629,7 @@ class MenuItem(Control):
         return self._get_attr("text")
 
     @text.setter
-    def text(self, value: Optional[str]) -> None:
+    def text(self, value: str | None) -> None:
         """ Set the text.
 
         :param value: The text
@@ -639,7 +639,7 @@ class MenuItem(Control):
 
     # secondary_text
     @property
-    def secondary_text(self) -> Optional[str]:
+    def secondary_text(self) -> str | None:
         """ Get the secondary text.
 
         :return: The secondary text
@@ -648,7 +648,7 @@ class MenuItem(Control):
         return self._get_attr("secondaryText")
 
     @secondary_text.setter
-    def secondary_text(self, value: Optional[str]) -> None:
+    def secondary_text(self, value: str | None) -> None:
         """ Set the secondary text.
 
         :param value: The secondary text
@@ -658,7 +658,7 @@ class MenuItem(Control):
 
     # url
     @property
-    def url(self) -> Optional[str]:
+    def url(self) -> str | None:
         """ Get the url.
 
         :return: The url
@@ -667,7 +667,7 @@ class MenuItem(Control):
         return self._get_attr("url")
 
     @url.setter
-    def url(self, value: Optional[str]) -> None:
+    def url(self, value: str | None) -> None:
         """ Set the url.
 
         :param value: The url
@@ -677,7 +677,7 @@ class MenuItem(Control):
 
     # new_window
     @property
-    def new_window(self) -> Optional[bool]:
+    def new_window(self) -> bool | None:
         """ Get the new window attribute.
 
         :return: The new window attribute
@@ -687,7 +687,7 @@ class MenuItem(Control):
 
     @new_window.setter
     @beartype
-    def new_window(self, value: Optional[bool]) -> None:
+    def new_window(self, value: bool | None) -> None:
         """ Set the new window attribute.
 
         :param value: The new window attribute
@@ -697,7 +697,7 @@ class MenuItem(Control):
 
     # icon
     @property
-    def icon(self) -> Optional[str]:
+    def icon(self) -> str | None:
         """ Get the icon.
 
         :return: The icon
@@ -706,7 +706,7 @@ class MenuItem(Control):
         return self._get_attr("icon")
 
     @icon.setter
-    def icon(self, value: Optional[str]) -> None:
+    def icon(self, value: str | None) -> None:
         """ Set the icon.
 
         :param value: The icon
@@ -716,7 +716,7 @@ class MenuItem(Control):
 
     # icon_color
     @property
-    def icon_color(self) -> Optional[str]:
+    def icon_color(self) -> str | None:
         """ Get the icon color.
 
         :return: The icon color
@@ -725,7 +725,7 @@ class MenuItem(Control):
         return self._get_attr("iconColor")
 
     @icon_color.setter
-    def icon_color(self, value: Optional[str]) -> None:
+    def icon_color(self, value: str | None) -> None:
         """ Set the icon color.
 
         :param value: The icon color
@@ -735,7 +735,7 @@ class MenuItem(Control):
 
     # icon_only
     @property
-    def icon_only(self) -> Optional[bool]:
+    def icon_only(self) -> bool | None:
         """ Get the icon only attribute.
 
         :return: The icon only attribute
@@ -745,7 +745,7 @@ class MenuItem(Control):
 
     @icon_only.setter
     @beartype
-    def icon_only(self, value: Optional[bool]) -> None:
+    def icon_only(self, value: bool | None) -> None:
         """ Set the icon only attribute.
 
         :param value: The icon only attribute
@@ -755,7 +755,7 @@ class MenuItem(Control):
 
     # split
     @property
-    def split(self) -> Optional[bool]:
+    def split(self) -> bool | None:
         """ Get the split attribute.
 
         :return: The split attribute
@@ -765,7 +765,7 @@ class MenuItem(Control):
 
     @split.setter
     @beartype
-    def split(self, value: Optional[bool]) -> None:
+    def split(self, value: bool | None) -> None:
         """ Set the split attribute.
 
         :param value: The split attribute
@@ -775,7 +775,7 @@ class MenuItem(Control):
 
     # divider
     @property
-    def divider(self) -> Optional[bool]:
+    def divider(self) -> bool | None:
         """ Get the divider attribute.
 
         :return: The divider attribute
@@ -785,7 +785,7 @@ class MenuItem(Control):
 
     @divider.setter
     @beartype
-    def divider(self, value: Optional[bool]) -> None:
+    def divider(self, value: bool | None) -> None:
         """ Set the divider attribute.
 
         :param value: The divider attribute
