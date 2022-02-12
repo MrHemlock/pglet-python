@@ -1,5 +1,6 @@
 """ Module for the Callout class """
 
+from __future__ import annotations
 from typing import Literal, Optional, Callable, List, Iterable
 from beartype import beartype
 from pglet.control import Control
