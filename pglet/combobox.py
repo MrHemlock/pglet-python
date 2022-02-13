@@ -1,36 +1,202 @@
-from typing import List, Literal, Optional
+""" Module for the ComboBox and Option classes """
 
+from __future__ import annotations
+from typing import List, Literal, Optional, Callable, Any, Iterable
 from beartype import beartype
-
 from pglet.control import Control
+
 
 ITEM_TYPE = Literal[None, "normal", "divider", "header", "selectAll", "select_all"]
 
 
+class Option(Control):
+    """ Class for a single option in a ComboBox
+
+    :param key: Option's key. text value will be used instead if key is not specified. Default is None.
+    :type key: str, optional
+    :param text: Option's display text. key value will be used instead if text is not specified. Default is None.
+    :type text: str, optional
+    :param item_type: Type of the option ("normal", "divider", "header", "selectAll", "select_all"). 
+        Default is "normal".
+    :type item_type: str, optional
+    :param disabled: Whether the option is disabled. Default is False.
+    :type disabled: bool, optional
+    """
+
+    def __init__(
+            self,
+            key: str | None = None,
+            text: str | None = None,
+            item_type: ITEM_TYPE = None,
+            disabled: bool | None = None
+    ) -> None:
+        """ Initialize the Option object """
+
+        Control.__init__(self)
+        assert key is not None or text is not None, "key or text must be specified"
+        self.key = key
+        self.text = text
+        self.item_type = item_type
+        self.disabled = disabled
+
+    def _get_control_name(self) -> str:
+        """ Get the control name.
+
+        :return: The control name.
+        :rtype: str
+        """
+        return "option"
+
+    # key
+    @property
+    def key(self) -> str | None:
+        """ Get the option's key.
+
+        :return: The option's key.
+        :rtype: str | None
+        """
+        return self._get_attr("key")
+
+    @key.setter
+    def key(self, value: str | None) -> None:
+        """ Set the option's key.
+
+        :param value: The option's key.
+        :type value: str | None
+        """
+        self._set_attr("key", value)
+
+    # text
+    @property
+    def text(self) -> str | None:
+        """ Get the option's text.
+
+        :return: The option's text.
+        :rtype: str | None
+        """
+        return self._get_attr("text")
+
+    @text.setter
+    def text(self, value: str | None) -> None:
+        """ Set the option's text.
+
+        :param value: The option's text.
+        :type value: str | None
+        """
+        self._set_attr("text", value)
+
+    # item_type
+    @property
+    def item_type(self) -> ITEM_TYPE:
+        """ Get the option's item type.
+
+        :return: The option's item type.
+        :rtype: str | None
+        """
+        return self._get_attr("itemtype")
+
+    @item_type.setter
+    @beartype
+    def item_type(self, value: ITEM_TYPE) -> None:
+        """ Set the option's item type.
+
+        :param value: The option's item type.
+        :type value: str | None
+        """
+        self._set_attr("itemtype", value)
+
+    # disabled
+    @property
+    def disabled(self) -> bool | None:
+        """ Get the option's disabled state.
+
+        :return: The option's disabled state.
+        :rtype: bool | None
+        """
+        return self._get_attr("disabled")
+
+    @disabled.setter
+    @beartype
+    def disabled(self, value: bool | None) -> None:
+        """ Set the option's disabled state.
+
+        :param value: The option's disabled state.
+        :type value: bool | None
+        """
+        self._set_attr("disabled", value)
+
+
 class ComboBox(Control):
+    """ A combination of a drop-down list or list box and a single-line editable textbox, 
+    allowing the user to either type a value directly or select one or multiple values from 
+    the list.
+
+    :param label: Descriptive label for the combo box. Default is None.
+    :type label: str, optional
+    :param id: The id of the combo box. Default is None.
+    :type id: str, optional
+    :param value: Key value of the selected option. Default is None.
+    :type value: str, List[str], optional
+    :param placeholder: Placeholder text. Default is None.
+    :type placeholder: str, optional
+    :param error_message: Error message. Default is None.
+    :type error_message: str, optional
+    :param on_change: Fires when the selected option changes. Default is None.
+    :type on_change: str, optional
+    :param on_focus: Fires when the combo box receives focus. Default is None.
+    :type on_focus: str, optional
+    :param on_blur: Fires when the combo box loses focus. Default is None.
+    :type on_blur: str, optional
+    :param options: Options for the combo box. Default is None.
+    :type options: Iterable[Option], optional
+    :param width: Width of the combo box. Default is None.
+    :type width: int, optional
+    :param height: Height of the combo box. Default is None.
+    :type height: int, optional
+    :param padding: Padding for the combo box. Default is None.
+    :type padding: int, optional
+    :param margin: Margin for the combo box. Default is None.
+    :type margin: int, optional
+    :param visible: Whether the combo box is visible. Default is True.
+    :type visible: bool, optional
+    :param disabled: Whether the combo box is disabled. Default is False.
+    :type disabled: bool, optional
+    :param focused: Whether the combo box is focused. Default is False.
+    :type focused: bool, optional
+    :param multi_select: Whether the combo box is multi-select. Default is False.
+    :type multi_select: bool, optional
+    :param allow_free_form: Whether the combo box allows free form text. Default is False.
+    :type allow_free_form: bool, optional
+    :param auto_complete: Whether the combo box auto completes. Default is False.
+    :type auto_complete: bool, optional
+    :param data: Additional data attached to the control. The value is passed in change event data
+        along with a ComboBox selected value. Defaults to None.
+    :type data: Any, optional
+    """
+
     def __init__(
         self,
-        label=None,
-        id=None,
-        value=None,
-        placeholder=None,
-        error_message=None,
-        on_change=None,
-        on_focus=None,
-        on_blur=None,
-        options=None,
-        width=None,
-        height=None,
-        padding=None,
-        margin=None,
-        visible=None,
-        disabled=None,
-        focused=None,
-        multi_select=None,
-        allow_free_form=None,
-        auto_complete=None,
-        data=None,
-    ):
+        label: str | None = None,
+        id: str | None = None,
+        value: str | List[str] | None = None,
+        placeholder: str | None = None,
+        error_message: str | None = None,
+        on_change: Optional[Callable] = None,
+        on_focus: Optional[Callable] = None,
+        on_blur: Optional[Callable] = None,
+        options: Iterable[Option] = None,
+        width: int | None = None,
+        height: int | None = None,
+        padding: int | None = None,
+        margin: int | None = None,
+        visible: bool | None = None,
+        disabled: bool | None = None,
+        focused: bool | None = None,
+        multi_select: bool | None = None,
+        allow_free_form: bool | None = None,
+        auto_complete: bool | None = None,
+        data: Any = None,
+    ) -> None:
         Control.__init__(
             self,
             id=id,
@@ -54,180 +220,259 @@ class ComboBox(Control):
         self.on_focus = on_focus
         self.on_blur = on_blur
         self.__options = []
-        if options != None:
+        if options is not None:
             for option in options:
                 self.__options.append(option)
 
-    def _get_control_name(self):
+    def _get_control_name(self) -> str:
+        """ Returns the control name.
+
+        :return: The control name.
+        :rtype: str
+        """
         return "combobox"
 
     # options
     @property
-    def options(self):
+    def options(self) -> List[Option] | None:
+        """ Returns the options for the combo box.
+
+        :return: The options for the combo box.
+        :rtype: List[Option] | None
+        """
         return self.__options
 
     @options.setter
-    def options(self, value):
+    def options(self, value: List[Option]) -> None:
+        """ Sets the options for the combo box.
+
+        :param value: The options for the combo box.
+        :type value: List[Option]
+        """
         self.__options = value
 
     # on_change
     @property
-    def on_change(self):
+    def on_change(self) -> Optional[Callable] | None:
+        """ Returns the on change callback.
+
+        :return: The on change callback.
+        :rtype: Optional[Callable]
+        """
         return self._get_event_handler("change")
 
     @on_change.setter
-    def on_change(self, handler):
+    def on_change(self, handler: Optional[Callable]) -> None:
+        """ Sets the on change callback.
+
+        :param handler: The on change callback.
+        :type handler: Optional[Callable]
+        """
         self._add_event_handler("change", handler)
 
     # label
     @property
-    def label(self):
+    def label(self) -> str | None:
+        """ Returns the label.
+
+        :return: The label.
+        :rtype: str | None
+        """
         return self._get_attr("label")
 
     @label.setter
-    def label(self, value):
+    def label(self, value: str | None) -> None:
+        """ Sets the label.
+
+        :param value: The label.
+        :type value: str | None
+        """
         self._set_attr("label", value)
 
     # value
     @property
-    def value(self):
+    def value(self) -> str | List[str] | None:
+        """ Returns the value.
+
+        :return: The value.
+        :rtype: str | List[str] | None
+        """
         v = self._get_attr("value")
         if v and self.multi_select:
             return [x.strip() for x in v.split(",")]
         return v
 
     @value.setter
-    def value(self, value):
+    def value(self, value: str | List[str] | None) -> None:
+        """ Sets the value.
+
+        :param value: The value.
+        :type value: str | List[str] | None
+        """
         if isinstance(value, List):
             value = ",".join(value)
         self._set_attr("value", value)
 
     # placeholder
     @property
-    def placeholder(self):
+    def placeholder(self) -> str | None:
+        """ Returns the placeholder.
+
+        :return: The placeholder.
+        :rtype: str | None
+        """
         return self._get_attr("placeholder")
 
     @placeholder.setter
-    def placeholder(self, value):
+    def placeholder(self, value: str | None) -> None:
+        """ Sets the placeholder.
+
+        :param value: The placeholder.
+        :type value: str | None
+        """
         self._set_attr("placeholder", value)
 
     # error_message
     @property
-    def error_message(self):
+    def error_message(self) -> str | None:
+        """ Returns the error message.
+
+        :return: The error message.
+        :rtype: str | None
+        """
         return self._get_attr("errorMessage")
 
     @error_message.setter
-    def error_message(self, value):
+    def error_message(self, value: str | None) -> None:
+        """ Sets the error message.
+
+        :param value: The error message.
+        :type value: str | None
+        """
         self._set_attr("errorMessage", value)
 
-    def _get_children(self):
+    def _get_children(self) -> List[Option] | None:
+        """ Returns the options for the combo box.
+
+        :return: The options for the combo box.
+        :rtype: List[Option] | None
+        """
         return self.__options
 
     # focused
     @property
-    def focused(self):
+    def focused(self) -> bool | None:
+        """ Returns the focused state.
+
+        :return: The focused state.
+        :rtype: bool | None
+        """
         return self._get_attr("focused")
 
     @focused.setter
     @beartype
-    def focused(self, value: Optional[bool]):
+    def focused(self, value: bool | None) -> None:
+        """ Sets the focused state.
+
+        :param value: The focused state.
+        :type value: bool | None
+        """
         self._set_attr("focused", value)
 
     # multi_select
     @property
-    def multi_select(self):
+    def multi_select(self) -> bool | None:
+        """ Returns the multi select state.
+
+        :return: The multi select state.
+        :rtype: bool | None
+        """
         return self._get_attr("multiselect")
 
     @multi_select.setter
     @beartype
-    def multi_select(self, value: Optional[bool]):
+    def multi_select(self, value: bool | None) -> None:
+        """ Sets the multi select state.
+
+        :param value: The multi select state.
+        :type value: bool | None
+        """
         self._set_attr("multiselect", value)
 
     # allow_free_form
     @property
-    def allow_free_form(self):
+    def allow_free_form(self) -> bool | None:
+        """ Returns the allow free form state.
+
+        :return: The allow free form state.
+        :rtype: bool | None
+        """
         return self._get_attr("allowfreeform")
 
     @allow_free_form.setter
     @beartype
-    def allow_free_form(self, value: Optional[bool]):
+    def allow_free_form(self, value: bool | None) -> None:
+        """ Sets the allow free form state.
+
+        :param value: The allow free form state.
+        :type value: bool | None
+        """
         self._set_attr("allowfreeform", value)
 
     # auto_complete
     @property
-    def auto_complete(self):
+    def auto_complete(self) -> bool | None:
+        """ Returns the auto complete state.
+
+        :return: The auto complete state.
+        :rtype: bool | None
+        """
         return self._get_attr("autocomplete")
 
     @auto_complete.setter
     @beartype
-    def auto_complete(self, value: Optional[bool]):
+    def auto_complete(self, value: bool | None) -> None:
+        """ Sets the auto complete state.
+
+        :param value: The auto complete state.
+        :type value: bool | None
+        """
         self._set_attr("autocomplete", value)
 
     # on_focus
     @property
-    def on_focus(self):
+    def on_focus(self) -> Optional[Callable]:
+        """ Returns the on focus event.
+
+        :return: The on focus event.
+        :rtype: Callable | None
+        """
         return self._get_event_handler("focus")
 
     @on_focus.setter
-    def on_focus(self, handler):
+    def on_focus(self, handler: Optional[Callable]) -> None:
+        """ Sets the on focus event.
+
+        :param handler: The on focus event.
+        :type handler: Callable | None
+        """
         self._add_event_handler("focus", handler)
 
     # on_blur
     @property
-    def on_blur(self):
+    def on_blur(self) -> Optional[Callable]:
+        """ Returns the on blur event.
+
+        :return: The on blur event.
+        :rtype: Callable | None
+        """
         return self._get_event_handler("blur")
 
     @on_blur.setter
-    def on_blur(self, handler):
+    def on_blur(self, handler: Optional[Callable]) -> None:
+        """ Sets the on blur event.
+
+        :param handler: The on blur event.
+        :type handler: Callable | None
+        """
         self._add_event_handler("blur", handler)
-
-
-class Option(Control):
-    def __init__(self, key=None, text=None, item_type: ITEM_TYPE = None, disabled=None):
-        Control.__init__(self)
-        assert key != None or text != None, "key or text must be specified"
-        self.key = key
-        self.text = text
-        self.item_type = item_type
-        self.disabled = disabled
-
-    def _get_control_name(self):
-        return "option"
-
-    # key
-    @property
-    def key(self):
-        return self._get_attr("key")
-
-    @key.setter
-    def key(self, value):
-        self._set_attr("key", value)
-
-    # text
-    @property
-    def text(self):
-        return self._get_attr("text")
-
-    @text.setter
-    def text(self, value):
-        self._set_attr("text", value)
-
-    # item_type
-    @property
-    def item_type(self):
-        return self._get_attr("itemtype")
-
-    @item_type.setter
-    @beartype
-    def item_type(self, value: ITEM_TYPE):
-        self._set_attr("itemtype", value)
-
-    # disabled
-    @property
-    def disabled(self):
-        return self._get_attr("disabled")
-
-    @disabled.setter
-    @beartype
-    def disabled(self, value: Optional[bool]):
-        self._set_attr("disabled", value)
