@@ -118,12 +118,12 @@ class Connection:
     @beartype
     def register_host_client(
         self,
-        host_client_id: str,
+        host_client_id: str | None,
         page_name: str,
         is_app: bool,
         update: bool,
-        auth_token: str,
-        permissions: str,
+        auth_token: str | None,
+        permissions: str | None,
     ) -> RegisterHostClientResponsePayload:
         """ Register the host client.
 
