@@ -1,7 +1,7 @@
 """ Module for the Callout class """
 
 from __future__ import annotations
-from typing import Literal, Optional, Callable, List, Iterable
+from typing import Literal, Optional, Callable, Iterable
 from beartype import beartype
 from pglet.control import Control
 
@@ -116,11 +116,12 @@ class Callout(Control):
         self.focus = focus
         self.cover = cover
         self.on_dismiss = on_dismiss
-        self.__controls: List[str] = []
+        self.__controls: list[str] = []
         if controls is not None:
             for control in controls:
                 self.__controls.append(control)
 
+    @beartype
     def _get_control_name(self) -> str:
         """ Get the name of the control type.
 
@@ -131,7 +132,8 @@ class Callout(Control):
 
     # controls
     @property
-    def controls(self) -> List[str]:
+    @beartype
+    def controls(self) -> list[str]:
         """ Get the controls.
 
         :return: The list of controls.
@@ -140,7 +142,8 @@ class Callout(Control):
         return self.__controls
 
     @controls.setter
-    def controls(self, value: List[str]) -> None:
+    @beartype
+    def controls(self, value: list[str]) -> None:
         """ Set the controls.
 
         :param value: The list of controls.
@@ -150,6 +153,7 @@ class Callout(Control):
 
     # on_dismiss
     @property
+    @beartype
     def on_dismiss(self) -> Callable:
         """ Get the on_dismiss callback.
 
@@ -159,6 +163,7 @@ class Callout(Control):
         return self._get_event_handler("dismiss")
 
     @on_dismiss.setter
+    @beartype
     def on_dismiss(self, handler: Callable) -> None:
         """ Set the on_dismiss callback.
 
@@ -169,6 +174,7 @@ class Callout(Control):
 
     # target
     @property
+    @beartype
     def target(self) -> str | None:
         """ Get the target.
 
@@ -178,6 +184,7 @@ class Callout(Control):
         return self._get_attr("target")
 
     @target.setter
+    @beartype
     def target(self, value: str | None) -> None:
         """ Set the target.
 
@@ -188,6 +195,7 @@ class Callout(Control):
 
     # position
     @property
+    @beartype
     def position(self) -> Optional[POSITION]:
         """ Get the position.
 
@@ -208,6 +216,7 @@ class Callout(Control):
 
     # gap
     @property
+    @beartype
     def gap(self) -> int | None:
         """ Get the gap.
 
@@ -228,6 +237,7 @@ class Callout(Control):
 
     # beak
     @property
+    @beartype
     def beak(self) -> bool | None:
         """ Get the beak.
 
@@ -248,6 +258,7 @@ class Callout(Control):
 
     # beak_width
     @property
+    @beartype
     def beak_width(self) -> int | None:
         """ Get the beak_width.
 
@@ -268,6 +279,7 @@ class Callout(Control):
 
     # page_padding
     @property
+    @beartype
     def page_padding(self) -> int | None:
         """ Get the page_padding.
 
@@ -288,6 +300,7 @@ class Callout(Control):
 
     # focus
     @property
+    @beartype
     def focus(self) -> bool | None:
         """ Get the focus.
 
@@ -308,6 +321,7 @@ class Callout(Control):
 
     # cover
     @property
+    @beartype
     def cover(self) -> bool | None:
         """ Get the cover.
 
@@ -326,7 +340,8 @@ class Callout(Control):
         """
         self._set_attr("cover", value)
 
-    def _get_children(self) -> List[str]:
+    @beartype
+    def _get_children(self) -> list[str]:
         """ Get the controls of the callout.
 
         :return: The controls of the callout.
