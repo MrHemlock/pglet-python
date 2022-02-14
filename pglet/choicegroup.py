@@ -1,7 +1,7 @@
 """ Module for ChoiceGroup and Option class. """
 
 from __future__ import annotations
-from typing import Optional, Iterable, List, Any, Callable
+from typing import Optional, Iterable, Any, Callable
 from beartype import beartype
 from pglet.control import Control
 
@@ -35,6 +35,7 @@ class Option(Control):
         self.icon = icon
         self.icon_color = icon_color
 
+    @beartype
     def _get_control_name(self) -> str:
         """ Get control name.
 
@@ -45,6 +46,7 @@ class Option(Control):
 
     # key
     @property
+    @beartype
     def key(self) -> str | None:
         """ Option's key.
 
@@ -54,6 +56,7 @@ class Option(Control):
         return self._get_attr("key")
 
     @key.setter
+    @beartype
     def key(self, value: str | None) -> None:
         """ Set option's key.
 
@@ -64,6 +67,7 @@ class Option(Control):
 
     # text
     @property
+    @beartype
     def text(self) -> str | None:
         """ Option's text.
 
@@ -73,6 +77,7 @@ class Option(Control):
         return self._get_attr("text")
 
     @text.setter
+    @beartype
     def text(self, value: str | None) -> None:
         """ Set option's text.
 
@@ -83,6 +88,7 @@ class Option(Control):
 
     # icon
     @property
+    @beartype
     def icon(self) -> str | None:
         """ Icon name to display with this option.
 
@@ -92,6 +98,7 @@ class Option(Control):
         return self._get_attr("icon")
 
     @icon.setter
+    @beartype
     def icon(self, value: str | None) -> None:
         """ Set icon name.
 
@@ -102,6 +109,7 @@ class Option(Control):
 
     # icon_color
     @property
+    @beartype
     def icon_color(self) -> str | None:
         """ Icon color.
 
@@ -111,6 +119,7 @@ class Option(Control):
         return self._get_attr("iconColor")
 
     @icon_color.setter
+    @beartype
     def icon_color(self, value: str | None) -> None:
         """ Set icon color.
 
@@ -190,11 +199,12 @@ class ChoiceGroup(Control):
         self.on_change = on_change
         self.on_focus = on_focus
         self.on_blur = on_blur
-        self.__options: List[Option] = []
+        self.__options: list[Option] = []
         if options is not None:
             for option in options:
                 self.__options.append(option)
 
+    @beartype
     def _get_control_name(self) -> str:
         """ Returns the control name.
 
@@ -205,25 +215,28 @@ class ChoiceGroup(Control):
 
     # options
     @property
-    def options(self) -> List[Option]:
+    @beartype
+    def options(self) -> list[Option]:
         """ Returns the options.
 
         :return: The options.
-        :rtype: List[Option]
+        :rtype: list[Option]
         """
         return self.__options
 
     @options.setter
-    def options(self, value: List[Option]) -> None:
+    @beartype
+    def options(self, value: list[Option]) -> None:
         """ Sets the options.
 
         :param value: The options.
-        :type value: List[Option]
+        :type value: list[Option]
         """
         self.__options = value
 
     # on_change
     @property
+    @beartype
     def on_change(self):
         """ Returns the on_change callback.
 
@@ -233,6 +246,7 @@ class ChoiceGroup(Control):
         return self._get_event_handler("change")
 
     @on_change.setter
+    @beartype
     def on_change(self, handler: Optional[Callable]) -> None:
         """ Sets the on_change callback.
 
@@ -243,6 +257,7 @@ class ChoiceGroup(Control):
 
     # value
     @property
+    @beartype
     def value(self) -> str:
         """ Returns the key value.
 
@@ -252,6 +267,7 @@ class ChoiceGroup(Control):
         return self._get_attr("value")
 
     @value.setter
+    @beartype
     def value(self, value: str) -> None:
         """ Sets the key value.
 
@@ -262,6 +278,7 @@ class ChoiceGroup(Control):
 
     # label
     @property
+    @beartype
     def label(self) -> str:
         """ Returns the label.
 
@@ -271,6 +288,7 @@ class ChoiceGroup(Control):
         return self._get_attr("label")
 
     @label.setter
+    @beartype
     def label(self, value: str) -> None:
         """ Sets the label.
 
@@ -279,16 +297,18 @@ class ChoiceGroup(Control):
         """
         self._set_attr("label", value)
 
-    def _get_children(self) -> List[Option]:
+    @beartype
+    def _get_children(self) -> list[Option]:
         """ Returns the list of options
 
         :return: The list of options.
-        :rtype: List[Option]
+        :rtype: list[Option]
         """
         return self.__options
 
     # focused
     @property
+    @beartype
     def focused(self) -> bool:
         """ Returns whether the choice group is focused.
 
@@ -309,6 +329,7 @@ class ChoiceGroup(Control):
 
     # on_focus
     @property
+    @beartype
     def on_focus(self) -> Optional[Callable]:
         """ Returns the on_focus callback.
 
@@ -318,6 +339,7 @@ class ChoiceGroup(Control):
         return self._get_event_handler("focus")
 
     @on_focus.setter
+    @beartype
     def on_focus(self, handler: Optional[Callable]) -> None:
         """ Sets the on_focus callback.
 
@@ -328,6 +350,7 @@ class ChoiceGroup(Control):
 
     # on_blur
     @property
+    @beartype
     def on_blur(self) -> Optional[Callable]:
         """ Returns the on_blur callback.
 
@@ -337,6 +360,7 @@ class ChoiceGroup(Control):
         return self._get_event_handler("blur")
 
     @on_blur.setter
+    @beartype
     def on_blur(self, handler: Optional[Callable]) -> None:
         """ Sets the on_blur callback.
 
