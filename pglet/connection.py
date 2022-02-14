@@ -1,11 +1,12 @@
 """ Module for the Connection class. """
 
 from __future__ import annotations
-from typing import Callable, List, Optional
+from typing import Callable, Optional
 import json
 import logging
 import threading
 import uuid
+from beartype import beartype
 
 from pglet.event import Event
 from pglet.protocol import *
@@ -33,6 +34,7 @@ class Connection:
         self.sessions: dict = {}
 
     @property
+    @beartype
     def on_event(self) -> Optional[Callable]:
         """ The event handler. This is called when a new event is received.
 
@@ -42,6 +44,7 @@ class Connection:
         return self._on_event
 
     @on_event.setter
+    @beartype
     def on_event(self, handler: Callable) -> None:
         """ Set the event handler. This is called when a new event is received.
 
@@ -51,6 +54,7 @@ class Connection:
         self._on_event = handler
 
     @property
+    @beartype
     def on_session_created(self) -> Optional[Callable]:
         """ The session created handler. This is called when a new session is created.
 
@@ -60,6 +64,7 @@ class Connection:
         return self._on_session_created
 
     @on_session_created.setter
+    @beartype
     def on_session_created(self, handler: Callable) -> None:
         """ Set the session created handler. This is called when a new session is created.
 
@@ -68,6 +73,7 @@ class Connection:
         """
         self._on_session_created = handler
 
+    @beartype
     def _on_message(self, data: str) -> None:
         """ Called when a message is received. This is called by the websocket.
 
@@ -109,6 +115,7 @@ class Connection:
             # it's something else
             print(msg.payload)
 
+    @beartype
     def register_host_client(
         self,
         host_client_id: str,
@@ -141,6 +148,7 @@ class Connection:
         response = self._send_message_with_result(Actions.REGISTER_HOST_CLIENT, payload)
         return RegisterHostClientResponsePayload(**response)
 
+    @beartype
     def send_command(self, page_name: str, session_id: str, command: Command) -> PageCommandResponsePayload:
         """ Send a command to the server.
 
@@ -162,11 +170,12 @@ class Connection:
             raise Exception(result.error)
         return result
 
+    @beartype
     def send_commands(
             self,
             page_name: str,
             session_id: str,
-            commands: List[Command]
+            commands: list[Command]
     ) -> PageCommandsBatchResponsePayload:
         """ Send a list of commands to the server.
 
@@ -175,7 +184,7 @@ class Connection:
         :param session_id: The session id.
         :type session_id: str
         :param commands: The list of commands.
-        :type commands: List[Command]
+        :type commands: list[Command]
         :return: The response payload.
         :rtype: PageCommandsBatchResponsePayload
         """
@@ -188,6 +197,7 @@ class Connection:
             raise Exception(result.error)
         return result
 
+    @beartype
     def _send_message_with_result(
             self,
             action_name: str,
@@ -212,6 +222,7 @@ class Connection:
         evt.wait()
         return self._ws_callbacks.pop(msg_id)[1]
 
+    @beartype
     def close(self) -> None:
         """ Close the connection. """
         logging.debug("Closing connection...")
