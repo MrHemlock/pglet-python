@@ -1,7 +1,7 @@
 """ Module for the ComboBox and Option classes """
 
 from __future__ import annotations
-from typing import List, Literal, Optional, Callable, Any, Iterable
+from typing import Literal, Optional, Callable, Any, Iterable
 from beartype import beartype
 from pglet.control import Control
 
@@ -16,7 +16,7 @@ class Option(Control):
     :type key: str, optional
     :param text: Option's display text. key value will be used instead if text is not specified. Default is None.
     :type text: str, optional
-    :param item_type: Type of the option ("normal", "divider", "header", "selectAll", "select_all"). 
+    :param item_type: Type of the option ("normal", "divider", "header", "selectAll", "select_all").
         Default is "normal".
     :type item_type: str, optional
     :param disabled: Whether the option is disabled. Default is False.
@@ -39,6 +39,7 @@ class Option(Control):
         self.item_type = item_type
         self.disabled = disabled
 
+    @beartype
     def _get_control_name(self) -> str:
         """ Get the control name.
 
@@ -49,6 +50,7 @@ class Option(Control):
 
     # key
     @property
+    @beartype
     def key(self) -> str | None:
         """ Get the option's key.
 
@@ -58,6 +60,7 @@ class Option(Control):
         return self._get_attr("key")
 
     @key.setter
+    @beartype
     def key(self, value: str | None) -> None:
         """ Set the option's key.
 
@@ -68,6 +71,7 @@ class Option(Control):
 
     # text
     @property
+    @beartype
     def text(self) -> str | None:
         """ Get the option's text.
 
@@ -77,6 +81,7 @@ class Option(Control):
         return self._get_attr("text")
 
     @text.setter
+    @beartype
     def text(self, value: str | None) -> None:
         """ Set the option's text.
 
@@ -87,6 +92,7 @@ class Option(Control):
 
     # item_type
     @property
+    @beartype
     def item_type(self) -> ITEM_TYPE:
         """ Get the option's item type.
 
@@ -107,6 +113,7 @@ class Option(Control):
 
     # disabled
     @property
+    @beartype
     def disabled(self) -> bool | None:
         """ Get the option's disabled state.
 
@@ -127,8 +134,8 @@ class Option(Control):
 
 
 class ComboBox(Control):
-    """ A combination of a drop-down list or list box and a single-line editable textbox, 
-    allowing the user to either type a value directly or select one or multiple values from 
+    """ A combination of a drop-down list or list box and a single-line editable textbox,
+    allowing the user to either type a value directly or select one or multiple values from
     the list.
 
     :param label: Descriptive label for the combo box. Default is None.
@@ -136,7 +143,7 @@ class ComboBox(Control):
     :param id: The id of the combo box. Default is None.
     :type id: str, optional
     :param value: Key value of the selected option. Default is None.
-    :type value: str, List[str], optional
+    :type value: str, list[str], optional
     :param placeholder: Placeholder text. Default is None.
     :type placeholder: str, optional
     :param error_message: Error message. Default is None.
@@ -178,7 +185,7 @@ class ComboBox(Control):
         self,
         label: str | None = None,
         id: str | None = None,
-        value: str | List[str] | None = None,
+        value: str | list[str] | None = None,
         placeholder: str | None = None,
         error_message: str | None = None,
         on_change: Optional[Callable] = None,
@@ -224,6 +231,7 @@ class ComboBox(Control):
             for option in options:
                 self.__options.append(option)
 
+    @beartype
     def _get_control_name(self) -> str:
         """ Returns the control name.
 
@@ -234,25 +242,28 @@ class ComboBox(Control):
 
     # options
     @property
-    def options(self) -> List[Option] | None:
+    @beartype
+    def options(self) -> list[Option] | None:
         """ Returns the options for the combo box.
 
         :return: The options for the combo box.
-        :rtype: List[Option] | None
+        :rtype: list[Option] | None
         """
         return self.__options
 
     @options.setter
-    def options(self, value: List[Option]) -> None:
+    @beartype
+    def options(self, value: list[Option]) -> None:
         """ Sets the options for the combo box.
 
         :param value: The options for the combo box.
-        :type value: List[Option]
+        :type value: list[Option]
         """
         self.__options = value
 
     # on_change
     @property
+    @beartype
     def on_change(self) -> Optional[Callable] | None:
         """ Returns the on change callback.
 
@@ -262,6 +273,7 @@ class ComboBox(Control):
         return self._get_event_handler("change")
 
     @on_change.setter
+    @beartype
     def on_change(self, handler: Optional[Callable]) -> None:
         """ Sets the on change callback.
 
@@ -272,6 +284,7 @@ class ComboBox(Control):
 
     # label
     @property
+    @beartype
     def label(self) -> str | None:
         """ Returns the label.
 
@@ -281,6 +294,7 @@ class ComboBox(Control):
         return self._get_attr("label")
 
     @label.setter
+    @beartype
     def label(self, value: str | None) -> None:
         """ Sets the label.
 
@@ -291,11 +305,12 @@ class ComboBox(Control):
 
     # value
     @property
-    def value(self) -> str | List[str] | None:
+    @beartype
+    def value(self) -> str | list[str] | None:
         """ Returns the value.
 
         :return: The value.
-        :rtype: str | List[str] | None
+        :rtype: str | list[str] | None
         """
         v = self._get_attr("value")
         if v and self.multi_select:
@@ -303,18 +318,20 @@ class ComboBox(Control):
         return v
 
     @value.setter
-    def value(self, value: str | List[str] | None) -> None:
+    @beartype
+    def value(self, value: str | list[str] | None) -> None:
         """ Sets the value.
 
         :param value: The value.
-        :type value: str | List[str] | None
+        :type value: str | list[str] | None
         """
-        if isinstance(value, List):
+        if isinstance(value, list):
             value = ",".join(value)
         self._set_attr("value", value)
 
     # placeholder
     @property
+    @beartype
     def placeholder(self) -> str | None:
         """ Returns the placeholder.
 
@@ -324,6 +341,7 @@ class ComboBox(Control):
         return self._get_attr("placeholder")
 
     @placeholder.setter
+    @beartype
     def placeholder(self, value: str | None) -> None:
         """ Sets the placeholder.
 
@@ -334,6 +352,7 @@ class ComboBox(Control):
 
     # error_message
     @property
+    @beartype
     def error_message(self) -> str | None:
         """ Returns the error message.
 
@@ -343,6 +362,7 @@ class ComboBox(Control):
         return self._get_attr("errorMessage")
 
     @error_message.setter
+    @beartype
     def error_message(self, value: str | None) -> None:
         """ Sets the error message.
 
@@ -351,16 +371,18 @@ class ComboBox(Control):
         """
         self._set_attr("errorMessage", value)
 
-    def _get_children(self) -> List[Option] | None:
+    @beartype
+    def _get_children(self) -> list[Option] | None:
         """ Returns the options for the combo box.
 
         :return: The options for the combo box.
-        :rtype: List[Option] | None
+        :rtype: list[Option] | None
         """
         return self.__options
 
     # focused
     @property
+    @beartype
     def focused(self) -> bool | None:
         """ Returns the focused state.
 
@@ -381,6 +403,7 @@ class ComboBox(Control):
 
     # multi_select
     @property
+    @beartype
     def multi_select(self) -> bool | None:
         """ Returns the multi select state.
 
@@ -401,6 +424,7 @@ class ComboBox(Control):
 
     # allow_free_form
     @property
+    @beartype
     def allow_free_form(self) -> bool | None:
         """ Returns the allow free form state.
 
@@ -421,6 +445,7 @@ class ComboBox(Control):
 
     # auto_complete
     @property
+    @beartype
     def auto_complete(self) -> bool | None:
         """ Returns the auto complete state.
 
@@ -441,6 +466,7 @@ class ComboBox(Control):
 
     # on_focus
     @property
+    @beartype
     def on_focus(self) -> Optional[Callable]:
         """ Returns the on focus event.
 
@@ -450,6 +476,7 @@ class ComboBox(Control):
         return self._get_event_handler("focus")
 
     @on_focus.setter
+    @beartype
     def on_focus(self, handler: Optional[Callable]) -> None:
         """ Sets the on focus event.
 
@@ -460,6 +487,7 @@ class ComboBox(Control):
 
     # on_blur
     @property
+    @beartype
     def on_blur(self) -> Optional[Callable]:
         """ Returns the on blur event.
 
@@ -469,6 +497,7 @@ class ComboBox(Control):
         return self._get_event_handler("blur")
 
     @on_blur.setter
+    @beartype
     def on_blur(self, handler: Optional[Callable]) -> None:
         """ Sets the on blur event.
 
