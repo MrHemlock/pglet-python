@@ -82,6 +82,7 @@ class Checkbox(Control):
         self.focused = focused
         self.on_change = on_change
 
+    @beartype
     def _get_control_name(self) -> str:
         """ Returns the name of the control.
 
@@ -92,6 +93,7 @@ class Checkbox(Control):
 
     # on_change
     @property
+    @beartype
     def on_change(self) -> Optional[Callable]:
         """ Returns the handler for the change event.
 
@@ -101,6 +103,7 @@ class Checkbox(Control):
         return self._get_event_handler("change")
 
     @on_change.setter
+    @beartype
     def on_change(self, handler: Optional[Callable]) -> None:
         """ Sets the handler for the change event.
 
@@ -111,6 +114,7 @@ class Checkbox(Control):
 
     # value
     @property
+    @beartype
     def value(self) -> bool | None:
         """ Returns the value of the checkbox.
 
@@ -131,6 +135,7 @@ class Checkbox(Control):
 
     # value_field
     @property
+    @beartype
     def value_field(self) -> str | None:
         """ Return the field that is bound to the value of checkbox when used
         inside Grid column template.
@@ -141,6 +146,7 @@ class Checkbox(Control):
         return self._get_attr("value")
 
     @value_field.setter
+    @beartype
     def value_field(self, value: str | None) -> None:
         """ Sets the field that is bound to the value of checkbox when used
         inside Grid column template.
@@ -154,18 +160,20 @@ class Checkbox(Control):
 
     # label
     @property
+    @beartype
     def label(self) -> str | None:
         """ Returns the label of the checkbox.
-
+        
         :return: The label of the checkbox.
         :rtype: str
         """
         return self._get_attr("label")
 
     @label.setter
+    @beartype
     def label(self, value: str | None) -> None:
         """ Sets the label of the checkbox.
-
+        
         :param value: The label of the checkbox.
         :type value: str
         """
@@ -173,6 +181,7 @@ class Checkbox(Control):
 
     # box_side
     @property
+    @beartype
     def box_side(self):
         return self._get_attr("boxSide")
 
@@ -180,7 +189,7 @@ class Checkbox(Control):
     @beartype
     def box_side(self, value: BOX_SIDE) -> None:
         """ Sets the box side of the checkbox.
-
+        
         :param value: The box side of the checkbox.
         :type value: str
         """
@@ -188,9 +197,10 @@ class Checkbox(Control):
 
     # focused
     @property
+    @beartype
     def focused(self) -> bool | None:
         """ Returns the focused state of the checkbox.
-
+        
         :return: The focused state of the checkbox.
         :rtype: bool
         """
@@ -200,7 +210,7 @@ class Checkbox(Control):
     @beartype
     def focused(self, value: bool | None) -> None:
         """ Sets the focused state of the checkbox.
-
+        
         :param value: The focused state of the checkbox.
         :type value: bool
         """
