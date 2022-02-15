@@ -1,7 +1,8 @@
 """ Module for ChoiceGroup and Option class. """
 
 from __future__ import annotations
-from typing import Optional, Iterable, Any, Callable
+from typing import Iterable, Any
+from collections.abc import Callable
 from beartype import beartype
 from pglet.control import Control
 
@@ -10,13 +11,13 @@ class Option(Control):
     """ Option represents an item within ChoiceGroup.
 
     :param key: Option's key. text value will be used instead if key is not specified. Default is None.
-    :type key: str, optional
+    :type key: str | None, optional
     :param text: Option's display text. key value will be used instead if text is not specified. Default is None.
-    :type text: str, optional
+    :type text: str | None, optional
     :param icon: Icon name to display with this option. Default is None.
-    :type icon: str, optional
+    :type icon: str | None, optional
     :param icon_color: Icon color. Default is None.
-    :type icon_color: str, optional
+    :type icon_color: str | None, optional
     """
 
     def __init__(
@@ -51,7 +52,7 @@ class Option(Control):
         """ Option's key.
 
         :return: Option's key.
-        :rtype: str
+        :rtype: str | None
         """
         return self._get_attr("key")
 
@@ -61,7 +62,7 @@ class Option(Control):
         """ Set option's key.
 
         :param value: Option's key.
-        :type value: str
+        :type value: str | None
         """
         self._set_attr("key", value)
 
@@ -72,7 +73,7 @@ class Option(Control):
         """ Option's text.
 
         :return: Option's text.
-        :rtype: str
+        :rtype: str | None
         """
         return self._get_attr("text")
 
@@ -82,7 +83,7 @@ class Option(Control):
         """ Set option's text.
 
         :param value: Option's text.
-        :type value: str
+        :type value: str | None
         """
         self._set_attr("text", value)
 
@@ -93,7 +94,7 @@ class Option(Control):
         """ Icon name to display with this option.
 
         :return: Icon name.
-        :rtype: str
+        :rtype: str | None
         """
         return self._get_attr("icon")
 
@@ -103,7 +104,7 @@ class Option(Control):
         """ Set icon name.
 
         :param value: Icon name.
-        :type value: str
+        :type value: str | None
         """
         self._set_attr("icon", value)
 
@@ -114,7 +115,7 @@ class Option(Control):
         """ Icon color.
 
         :return: Icon color.
-        :rtype: str
+        :rtype: str | None
         """
         return self._get_attr("iconColor")
 
@@ -124,7 +125,7 @@ class Option(Control):
         """ Set icon color.
 
         :param value: Icon color.
-        :type value: str
+        :type value: str | None
         """
         self._set_attr("iconColor", value)
 
@@ -133,36 +134,36 @@ class ChoiceGroup(Control):
     """ Radio buttons let people select a single option from two or more choices.
 
     :param label: Descriptive label for the choice group. Defaults to None.
-    :type label: str, optional
+    :type label: str | None, optional
     :param id: ID for the choice group. Defaults to None.
-    :type id: str, optional
+    :type id: str | None, optional
     :param value: key value of the selected option. Defaults to None.
-    :type value: str, optional
+    :type value: str | None, optional
     :param data: Additional data attached to the control. The value is passed in change event data
         along with a ChoiceGroup selected value. Defaults to None.
     :type data: Any, optional
     :param options: Options for the choice group. Defaults to None.
-    :type options: Iterable[Option], optional
+    :type options: Iterable[Option] | None, optional
     :param width: Width of the choice group. Defaults to None.
-    :type width: int, optional
+    :type width: int | str | None, optional
     :param height: Height of the choice group. Defaults to None.
-    :type height: int, optional
+    :type height: int | str | None, optional
     :param padding: Padding for the choice group. Defaults to None.
-    :type padding: int, optional
+    :type padding: int | str | None, optional
     :param margin: Margin for the choice group. Defaults to None.
-    :type margin: int, optional
+    :type margin: int | str | None, optional
     :param focused: Whether the choice group is focused. Defaults to False.
-    :type focused: bool, optional
+    :type focused: bool | None, optional
     :param on_change: Fires when the choice has been changed. Defaults to None.
-    :type on_change: callable, optional
+    :type on_change: Callable | None, optional
     :param on_focus: Fires when the choice group has been focused. Defaults to None.
-    :type on_focus: callable, optional
+    :type on_focus: Callable | None, optional
     :param on_blur: Fires when the choice group has been blurred. Defaults to None.
-    :type on_blur: callable, optional
+    :type on_blur: Callable | None, optional
     :param visible: Whether the choice group is visible. Defaults to True.
-    :type visible: bool, optional
+    :type visible: bool | None, optional
     :param disabled: Whether the choice group is disabled. Defaults to False.
-    :type disabled: bool, optional
+    :type disabled: bool | None, optional
     """
     def __init__(
         self,
@@ -176,9 +177,9 @@ class ChoiceGroup(Control):
         padding: int | None = None,
         margin: int | None = None,
         focused: bool | None = None,
-        on_change: Optional[Callable] | None = None,
-        on_focus: Optional[Callable] | None = None,
-        on_blur: Optional[Callable] | None = None,
+        on_change: Callable | None = None,
+        on_focus: Callable | None = None,
+        on_blur: Callable | None = None,
         visible: bool | None = None,
         disabled: bool | None = None,
     ):
@@ -220,7 +221,7 @@ class ChoiceGroup(Control):
         """ Returns the options.
 
         :return: The options.
-        :rtype: list[Option]
+        :rtype: list[Option] | None
         """
         return self.__options
 
@@ -230,141 +231,141 @@ class ChoiceGroup(Control):
         """ Sets the options.
 
         :param value: The options.
-        :type value: list[Option]
+        :type value: list[Option] | None
         """
         self.__options = value
 
     # on_change
     @property
     @beartype
-    def on_change(self):
+    def on_change(self) -> Callable | None:
         """ Returns the on_change callback.
 
         :return: The on_change callback.
-        :rtype: callable
+        :rtype: Callable | None
         """
         return self._get_event_handler("change")
 
     @on_change.setter
     @beartype
-    def on_change(self, handler: Optional[Callable]) -> None:
+    def on_change(self, handler: Callable | None) -> None:
         """ Sets the on_change callback.
 
         :param handler: The on_change callback.
-        :type handler: callable
+        :type handler: Callable | None
         """
         self._add_event_handler("change", handler)
 
     # value
     @property
     @beartype
-    def value(self) -> str:
+    def value(self) -> str | None:
         """ Returns the key value.
 
         :return: The key value.
-        :rtype: str
+        :rtype: str | None
         """
         return self._get_attr("value")
 
     @value.setter
     @beartype
-    def value(self, value: str) -> None:
+    def value(self, value: str | None) -> None:
         """ Sets the key value.
 
         :param value: The key value.
-        :type value: str
+        :type value: str | None
         """
         self._set_attr("value", value)
 
     # label
     @property
     @beartype
-    def label(self) -> str:
+    def label(self) -> str | None:
         """ Returns the label.
 
         :return: The label.
-        :rtype: str
+        :rtype: str | None
         """
         return self._get_attr("label")
 
     @label.setter
     @beartype
-    def label(self, value: str) -> None:
+    def label(self, value: str | None) -> None:
         """ Sets the label.
 
         :param value: The label.
-        :type value: str
+        :type value: str | None
         """
         self._set_attr("label", value)
 
     @beartype
-    def _get_children(self) -> list[Option]:
+    def _get_children(self) -> list[Option] | None:
         """ Returns the list of options
 
         :return: The list of options.
-        :rtype: list[Option]
+        :rtype: list[Option] | None
         """
         return self.__options
 
     # focused
     @property
     @beartype
-    def focused(self) -> bool:
+    def focused(self) -> bool | None:
         """ Returns whether the choice group is focused.
 
         :return: Whether the choice group is focused.
-        :rtype: bool
+        :rtype: bool | None
         """
         return self._get_attr("focused")
 
     @focused.setter
     @beartype
-    def focused(self, value: Optional[bool]):
+    def focused(self, value: bool | None) -> None:
         """ Sets whether the choice group is focused.
 
         :param value: Whether the choice group is focused.
-        :type value: bool
+        :type value: bool | None
         """
         self._set_attr("focused", value)
 
     # on_focus
     @property
     @beartype
-    def on_focus(self) -> Optional[Callable]:
+    def on_focus(self) -> Callable | None:
         """ Returns the on_focus callback.
 
         :return: The on_focus callback.
-        :rtype: callable
+        :rtype: Callable | None
         """
         return self._get_event_handler("focus")
 
     @on_focus.setter
     @beartype
-    def on_focus(self, handler: Optional[Callable]) -> None:
+    def on_focus(self, handler: Callable | None) -> None:
         """ Sets the on_focus callback.
 
         :param handler: The on_focus callback.
-        :type handler: callable
+        :type handler: Callable | None
         """
         self._add_event_handler("focus", handler)
 
     # on_blur
     @property
     @beartype
-    def on_blur(self) -> Optional[Callable]:
+    def on_blur(self) -> Callable | None:
         """ Returns the on_blur callback.
 
         :return: The on_blur callback.
-        :rtype: callable
+        :rtype: Callable | None
         """
         return self._get_event_handler("blur")
 
     @on_blur.setter
     @beartype
-    def on_blur(self, handler: Optional[Callable]) -> None:
+    def on_blur(self, handler: Callable | None) -> None:
         """ Sets the on_blur callback.
 
         :param handler: The on_blur callback.
-        :type handler: callable
+        :type handler: Callable | None
         """
         self._add_event_handler("blur", handler)
