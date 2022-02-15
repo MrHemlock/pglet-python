@@ -1,14 +1,12 @@
 """ Module for the Connection class. """
 
 from __future__ import annotations
-from typing import Callable, Optional
+from collections.abc import Callable
 import json
 import logging
 import threading
 import uuid
 from beartype import beartype
-
-from pglet.event import Event
 from pglet.protocol import *
 from pglet.reconnecting_websocket import ReconnectingWebSocket
 
@@ -25,8 +23,8 @@ class Connection:
         self._ws = ws
         self._ws.on_message = self._on_message
         self._ws_callbacks: dict = {}
-        self._on_event: Optional[Callable] = None
-        self._on_session_created: Optional[Callable] = None
+        self._on_event: Callable | None = None
+        self._on_session_created: Callable | None = None
         self.host_client_id: str | None = None
         self.page_name: str | None = None
         self.page_url: str | None = None
@@ -35,41 +33,41 @@ class Connection:
 
     @property
     @beartype
-    def on_event(self) -> Optional[Callable]:
+    def on_event(self) -> Callable | None:
         """ The event handler. This is called when a new event is received.
 
         :return: The event handler.
-        :rtype: Callable
+        :rtype: Callable | None
         """
         return self._on_event
 
     @on_event.setter
     @beartype
-    def on_event(self, handler: Callable) -> None:
+    def on_event(self, handler: Callable | None) -> None:
         """ Set the event handler. This is called when a new event is received.
 
         :param handler: The event handler.
-        :type handler: Callable
+        :type handler: Callable | None
         """
         self._on_event = handler
 
     @property
     @beartype
-    def on_session_created(self) -> Optional[Callable]:
+    def on_session_created(self) -> Callable | None:
         """ The session created handler. This is called when a new session is created.
 
         :return: The session created handler.
-        :rtype: Callable
+        :rtype: Callable | None
         """
         return self._on_session_created
 
     @on_session_created.setter
     @beartype
-    def on_session_created(self, handler: Callable) -> None:
+    def on_session_created(self, handler: Callable | None) -> None:
         """ Set the session created handler. This is called when a new session is created.
 
         :param handler: The session created handler.
-        :type handler: Callable
+        :type handler: Callable | None
         """
         self._on_session_created = handler
 
@@ -128,7 +126,7 @@ class Connection:
         """ Register the host client.
 
         :param host_client_id: The host client id.
-        :type host_client_id: str
+        :type host_client_id: str | None
         :param page_name: The page name.
         :type page_name: str
         :param is_app: Whether the page is an app.
@@ -136,9 +134,9 @@ class Connection:
         :param update: Whether the page is an update.
         :type update: bool
         :param auth_token: The auth token.
-        :type auth_token: str
+        :type auth_token: str | None
         :param permissions: The permissions.
-        :type permissions: str
+        :type permissions: str | None
         :return: The response payload.
         :rtype: RegisterHostClientResponsePayload
         """
