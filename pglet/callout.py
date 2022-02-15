@@ -1,9 +1,11 @@
 """ Module for the Callout class """
 
 from __future__ import annotations
-from typing import Literal, Optional, Callable, Iterable
+from typing import Literal
+from collections.abc import Callable, Iterable
 from beartype import beartype
 from pglet.control import Control
+
 
 POSITION = Literal[
     None,
@@ -39,14 +41,14 @@ class Callout(Control):
         rightBottom. Defaults to BottomAuto
     :type position: str, optional
     :param gap: The gap between the callout and the target control. Defaults to 0
-    :type gap: int, optional
+    :type gap: int | str | None, optional
     :param beak: Whether the beak is visible. Defaults to True
     :type beak: bool, optional
     :param beak_width: Beak width. Defaults to 16
-    :type beak_width: int, optional
+    :type beak_width: int | str | None, optional
     :param page_padding: The minimum distance the callout will be away from the edge
         of the screen. Defaults to 8
-    :type page_padding: int, optional
+    :type page_padding: int | str | None, optional
     :param focus: If true then the callout will attempt to focus the first focusable
         element that it contains. If it doesn't find an element, no focus will be set
         and the method will return false. This means that it's the contents responsibility
@@ -61,15 +63,15 @@ class Callout(Control):
     :type controls: list, optional
     :param on_dismiss: Fires when the callout is dismissed. Callout is dismissed when a
         user clicks outside of the callout area. Defaults to None.
-    :type on_dismiss: callable, optional
+    :type on_dismiss: Callable | None, optional
     :param width: The width of the callout. Defaults to None.
-    :type width: int, optional
+    :type width: int | str | None, optional
     :param height: The height of the callout. Defaults to None.
-    :type height: int, optional
+    :type height: int | str | None, optional
     :param padding: The padding of the callout. Defaults to None.
-    :type padding: int, optional
+    :type padding: int | str | None, optional
     :param margin: The margin of the callout. Defaults to None.
-    :type margin: int, optional
+    :type margin: int | str | None, optional
     :param disabled: Whether the callout is disabled or not. Defaults to False.
     :type disabled: bool, optional
     """
@@ -79,19 +81,19 @@ class Callout(Control):
         id: str | None = None,
         target: str | None = None,
         position: POSITION = None,
-        gap: int | None = None,
+        gap: int | str | None = None,
         beak: bool | None = None,
-        beak_width: int | None = None,
-        page_padding: int | None = None,
+        beak_width: int | str | None = None,
+        page_padding: int | str | None = None,
         focus: bool | None = None,
         cover: bool | None = None,
         visible: bool | None = None,
         controls: Iterable[str] | None = None,
-        on_dismiss: Optional[Callable] = None,
-        width: int | None = None,
-        height: int | None = None,
-        padding: int | None = None,
-        margin: int | None = None,
+        on_dismiss: Callable | None = None,
+        width: int | str | None = None,
+        height: int | str | None = None,
+        padding: int | str | None = None,
+        margin: int | str | None = None,
         disabled: bool | None = None,
     ) -> None:
         """ Initialize a new Callout. """
@@ -137,7 +139,7 @@ class Callout(Control):
         """ Get the controls.
 
         :return: The list of controls.
-        :rtype: list
+        :rtype: list[str]
         """
         return self.__controls
 
@@ -147,28 +149,28 @@ class Callout(Control):
         """ Set the controls.
 
         :param value: The list of controls.
-        :type value: list
+        :type value: list[str]
         """
         self.__controls = value
 
     # on_dismiss
     @property
     @beartype
-    def on_dismiss(self) -> Callable:
+    def on_dismiss(self) -> Callable | None:
         """ Get the on_dismiss callback.
 
         :return: The on_dismiss callback.
-        :rtype: callable
+        :rtype: Callable | None
         """
         return self._get_event_handler("dismiss")
 
     @on_dismiss.setter
     @beartype
-    def on_dismiss(self, handler: Callable) -> None:
+    def on_dismiss(self, handler: Callable | None) -> None:
         """ Set the on_dismiss callback.
 
         :param handler: The on_dismiss callback.
-        :type handler: callable
+        :type handler: Callable | None
         """
         self._add_event_handler("dismiss", handler)
 
@@ -179,7 +181,7 @@ class Callout(Control):
         """ Get the target.
 
         :return: The target.
-        :rtype: str
+        :rtype: str | None
         """
         return self._get_attr("target")
 
@@ -196,11 +198,11 @@ class Callout(Control):
     # position
     @property
     @beartype
-    def position(self) -> Optional[POSITION]:
+    def position(self) -> POSITION:
         """ Get the position.
 
         :return: The position.
-        :rtype: str
+        :rtype: str | None
         """
         return self._get_attr("position")
 
@@ -210,28 +212,28 @@ class Callout(Control):
         """ Set the position.
 
         :param value: The position.
-        :type value: str
+        :type value: str | None
         """
         self._set_attr("position", value)
 
     # gap
     @property
     @beartype
-    def gap(self) -> int | None:
+    def gap(self) -> int | str | None:
         """ Get the gap.
 
         :return: The gap.
-        :rtype: int
+        :rtype: int | str | None
         """
         return self._get_attr("gap")
 
     @gap.setter
     @beartype
-    def gap(self, value: int | None) -> None:
+    def gap(self, value: int | str | None) -> None:
         """ Set the gap.
 
         :param value: The gap.
-        :type value: int
+        :type value: int | str | None
         """
         self._set_attr("gap", value)
 
@@ -259,42 +261,42 @@ class Callout(Control):
     # beak_width
     @property
     @beartype
-    def beak_width(self) -> int | None:
+    def beak_width(self) -> int | str | None:
         """ Get the beak_width.
 
         :return: The beak_width.
-        :rtype: int
+        :rtype: int | str | None
         """
         return self._get_attr("beakWidth")
 
     @beak_width.setter
     @beartype
-    def beak_width(self, value: int | None) -> None:
+    def beak_width(self, value: int | str | None) -> None:
         """ Set the beak_width.
 
         :param value: The beak_width.
-        :type value: int
+        :type value: int | str | None
         """
         self._set_attr("beakWidth", value)
 
     # page_padding
     @property
     @beartype
-    def page_padding(self) -> int | None:
+    def page_padding(self) -> int | str | None:
         """ Get the page_padding.
 
         :return: The page_padding.
-        :rtype: int
+        :rtype: int | str | None
         """
         return self._get_attr("pagePadding")
 
     @page_padding.setter
     @beartype
-    def page_padding(self, value: int | None) -> None:
+    def page_padding(self, value: int | str | None) -> None:
         """ Set the page_padding.
 
         :param value: The page_padding.
-        :type value: int
+        :type value: int | str | None
         """
         self._set_attr("pagePadding", value)
 
@@ -345,6 +347,6 @@ class Callout(Control):
         """ Get the controls of the callout.
 
         :return: The controls of the callout.
-        :rtype: list
+        :rtype: list[str]
         """
         return self.__controls
