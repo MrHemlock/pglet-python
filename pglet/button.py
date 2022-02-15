@@ -1,9 +1,9 @@
 """ Module for the Button and MenuItem classes"""
 
 from __future__ import annotations
-from typing import Optional, Callable, Iterable, List, Any
+from typing import Any
+from collections.abc import Callable, Iterable
 from beartype import beartype
-
 from pglet.control import Control
 
 
@@ -54,13 +54,13 @@ class Button(Control):
     :param menu_items: Menu items to show when the button is clicked, defaults to None.
     :type menu_items: iterable of strings, optional
     :param width: Width of the button, defaults to None.
-    :type width: int, optional
+    :type width: int | str | None, optional
     :param height: Height of the button, defaults to None.
-    :type height: int, optional
+    :type height: int | str | None, optional
     :param padding: Padding of the button, defaults to None.
-    :type padding: int, optional
+    :type padding: int | str | None, optional
     :param margin: Margin of the button, defaults to None.
-    :type margin: int, optional
+    :type margin: int | str | None, optional
     :param visible: Whether the button is visible, defaults to None.
     :type visible: bool, optional
     :param disabled: Whether the button is disabled, defaults to None.
@@ -84,14 +84,14 @@ class Button(Control):
         icon_color: str | None = None,
         focused: bool | None = None,
         data: str | None = None,
-        on_click: Optional[Callable] = None,
-        on_focus: Optional[Callable] = None,
-        on_blur: Optional[Callable] = None,
+        on_click: Callable | None = None,
+        on_focus: Callable | None = None,
+        on_blur: Callable | None = None,
         menu_items: Iterable[str] | None = None,
-        width: int | None = None,
-        height: int | None = None,
-        padding: int | None = None,
-        margin: int | None = None,
+        width: int | str | None = None,
+        height: int | str | None = None,
+        padding: int | str | None = None,
+        margin: int | str | None = None,
         visible: bool | None = None,
         disabled: bool | None = None,
     ) -> None:
@@ -124,11 +124,12 @@ class Button(Control):
         self.on_click = on_click
         self.on_focus = on_focus
         self.on_blur = on_blur
-        self.__menu_items: List[str] = []
+        self.__menu_items: list[str] = []
         if menu_items is not None:
             for item in menu_items:
                 self.__menu_items.append(item)
 
+    @beartype
     def _get_control_name(self) -> str:
         """ Get the name of the control type.
 
@@ -139,7 +140,8 @@ class Button(Control):
 
     # menu_items
     @property
-    def menu_items(self) -> List[str]:
+    @beartype
+    def menu_items(self) -> list[str]:
         """ Get the menu items for the button.
 
         :return: The menu items
@@ -148,7 +150,8 @@ class Button(Control):
         return self.__menu_items
 
     @menu_items.setter
-    def menu_items(self, value: List[str]) -> None:
+    @beartype
+    def menu_items(self, value: list[str]) -> None:
         """ Set the menu items for the button.
 
         :param value: The menu items
@@ -158,7 +161,8 @@ class Button(Control):
 
     # on_click
     @property
-    def on_click(self) -> Optional[Callable]:
+    @beartype
+    def on_click(self) -> Callable | None:
         """ Get the on_click callback for the button.
 
         :return: The on_click callback
@@ -167,7 +171,8 @@ class Button(Control):
         return self._get_event_handler("click")
 
     @on_click.setter
-    def on_click(self, handler: Optional[Callable]) -> None:
+    @beartype
+    def on_click(self, handler: Callable | None) -> None:
         """ Set the on_click callback.
 
         :param handler: The on_click callback
@@ -177,6 +182,7 @@ class Button(Control):
 
     # primary
     @property
+    @beartype
     def primary(self) -> bool | None:
         """ Get the primary property for the button.
 
@@ -197,6 +203,7 @@ class Button(Control):
 
     # compound
     @property
+    @beartype
     def compound(self) -> bool | None:
         """ Get the compound property.
 
@@ -217,6 +224,7 @@ class Button(Control):
 
     # action
     @property
+    @beartype
     def action(self) -> bool | None:
         """ Get the action property.
 
@@ -237,6 +245,7 @@ class Button(Control):
 
     # toolbar
     @property
+    @beartype
     def toolbar(self) -> bool | None:
         """ Get the toolbar property.
 
@@ -257,6 +266,7 @@ class Button(Control):
 
     # split
     @property
+    @beartype
     def split(self) -> bool | None:
         """ Get the split property.
 
@@ -277,6 +287,7 @@ class Button(Control):
 
     # text
     @property
+    @beartype
     def text(self) -> str | None:
         """ Get the text property.
 
@@ -286,6 +297,7 @@ class Button(Control):
         return self._get_attr("text")
 
     @text.setter
+    @beartype
     def text(self, value: str | None) -> None:
         """ Set the text property.
 
@@ -296,6 +308,7 @@ class Button(Control):
 
     # secondary_text
     @property
+    @beartype
     def secondary_text(self) -> str | None:
         """ Get the secondary_text property.
 
@@ -305,6 +318,7 @@ class Button(Control):
         return self._get_attr("secondaryText")
 
     @secondary_text.setter
+    @beartype
     def secondary_text(self, value: str | None) -> None:
         """ Set the secondary_text property.
 
@@ -315,6 +329,7 @@ class Button(Control):
 
     # url
     @property
+    @beartype
     def url(self) -> str | None:
         """ Get the url property.
 
@@ -324,6 +339,7 @@ class Button(Control):
         return self._get_attr("url")
 
     @url.setter
+    @beartype
     def url(self, value: str | None) -> None:
         """ Set the url property.
 
@@ -334,6 +350,7 @@ class Button(Control):
 
     # new_window
     @property
+    @beartype
     def new_window(self) -> bool | None:
         """ Get the new_window property.
 
@@ -354,6 +371,7 @@ class Button(Control):
 
     # title
     @property
+    @beartype
     def title(self) -> str | None:
         """ Get the title property.
 
@@ -363,6 +381,7 @@ class Button(Control):
         return self._get_attr("title")
 
     @title.setter
+    @beartype
     def title(self, value: str | None) -> None:
         """ Set the title property.
 
@@ -373,6 +392,7 @@ class Button(Control):
 
     # icon
     @property
+    @beartype
     def icon(self) -> str | None:
         """ Get the icon property.
 
@@ -382,6 +402,7 @@ class Button(Control):
         return self._get_attr("icon")
 
     @icon.setter
+    @beartype
     def icon(self, value: str | None) -> None:
         """ Set the icon property.
 
@@ -392,6 +413,7 @@ class Button(Control):
 
     # icon_color
     @property
+    @beartype
     def icon_color(self) -> str | None:
         """ Get the icon_color property.
 
@@ -401,6 +423,7 @@ class Button(Control):
         return self._get_attr("iconColor")
 
     @icon_color.setter
+    @beartype
     def icon_color(self, value: str | None) -> None:
         """ Set the icon_color property.
 
@@ -409,7 +432,8 @@ class Button(Control):
         """
         self._set_attr("iconColor", value)
 
-    def _get_children(self) -> List[str]:
+    @beartype
+    def _get_children(self) -> list[str]:
         """ Get the menu items of the button.
 
         :return: The menu items of the button
@@ -419,6 +443,7 @@ class Button(Control):
 
     # focused
     @property
+    @beartype
     def focused(self) -> bool | None:
         """ Get the focused property.
 
@@ -439,39 +464,43 @@ class Button(Control):
 
     # on_focus
     @property
-    def on_focus(self) -> Optional[Callable]:
+    @beartype
+    def on_focus(self) -> Callable | None:
         """ Get the on_focus function.
 
         :return: The on_focus function
-        :rtype: callable | None
+        :rtype: Callable | None
         """
         return self._get_event_handler("focus")
 
     @on_focus.setter
-    def on_focus(self, handler: Optional[Callable]) -> None:
+    @beartype
+    def on_focus(self, handler: Callable | None) -> None:
         """ Set a function to be called when the button is focused.
 
         :param handler: The function to call
-        :type handler: callable | None
+        :type handler: Callable | None
         """
         self._add_event_handler("focus", handler)
 
     # on_blur
     @property
-    def on_blur(self) -> Optional[Callable]:
+    @beartype
+    def on_blur(self) -> Callable | None:
         """ Get the on_blur function.
 
         :return: The on_blur function
-        :rtype: callable | None
+        :rtype: Callable | None
         """
         return self._get_event_handler("blur")
 
     @on_blur.setter
-    def on_blur(self, handler: Optional[Callable]) -> None:
+    @beartype
+    def on_blur(self, handler: Callable | None) -> None:
         """ Set a function to be called when the button is blurred.
 
         :param handler: The function to call
-        :type handler: callable | None
+        :type handler: Callable | None
         """
         self._add_event_handler("blur", handler)
 
@@ -499,7 +528,7 @@ class MenuItem(Control):
     :param icon_only: Show only an icon for this item, not text. Does not apply if item
         is in the overflow. Defaults to None.
     :type icon_only: bool, optional
-    :param split: Whether or not this menu item is a SplitButton. Defaults to None.
+    :param split: Whether this menu item is a SplitButton. Defaults to None.
     :type split: bool, optional
     :param divider: Display menu item as a divider. Defaults to None.
     :type divider: bool, optional
@@ -508,19 +537,19 @@ class MenuItem(Control):
     :param sub_menu_items: Sub-menu items to display for this menu item. Defaults to None.
     :type sub_menu_items: list, optional
     :param width: Width of the menu item. Defaults to None.
-    :type width: int, optional
+    :type width: int | str | None, optional
     :param height: Height of the menu item. Defaults to None.
-    :type height: int, optional
+    :type height: int | str | None, optional
     :param padding: Padding of the menu item. Defaults to None.
-    :type padding: int, optional
+    :type padding: int | str | None, optional
     :param margin: Margin of the menu item. Defaults to None.
-    :type margin: int, optional
-    :param visible: Whether or not the menu item is visible. Defaults to None.
+    :type margin: int | str | None, optional
+    :param visible: Whether the menu item is visible. Defaults to None.
     :type visible: bool, optional
-    :param disabled: Whether or not the menu item is disabled. Defaults to None.
+    :param disabled: Whether the menu item is disabled. Defaults to None.
     :type disabled: bool, optional
     :param data: Arbitrary data to attach to the menu item. Defaults to None.
-    :type data: any, optional
+    :type data: Any, optional
     """
 
     def __init__(
@@ -535,12 +564,12 @@ class MenuItem(Control):
         icon_only: bool | None = None,
         split: bool | None = None,
         divider: bool | None = None,
-        on_click: Optional[Callable] = None,
-        sub_menu_items: List[MenuItem] | None = None,
-        width: int | None = None,
-        height: int | None = None,
-        padding: int | None = None,
-        margin: int | None = None,
+        on_click: Callable | None = None,
+        sub_menu_items: list['MenuItem'] | None = None,
+        width: int | str | None = None,
+        height: int | str | None = None,
+        padding: int | str | None = None,
+        margin: int | str | None = None,
         visible: bool | None = None,
         disabled: bool | None = None,
         data: Any = None,
@@ -567,11 +596,12 @@ class MenuItem(Control):
         self.split = split
         self.divider = divider
         self.on_click = on_click
-        self.__sub_menu_items: List[MenuItem] = []
+        self.__sub_menu_items: list['MenuItem'] = []
         if sub_menu_items is not None:
             for item in sub_menu_items:
                 self.__sub_menu_items.append(item)
 
+    @beartype
     def _get_control_name(self) -> str:
         """ Get the name of the control type.
 
@@ -582,26 +612,29 @@ class MenuItem(Control):
 
     # on_click
     @property
-    def on_click(self) -> Optional[Callable]:
+    @beartype
+    def on_click(self) -> Callable | None:
         """ Get the on_click function.
 
         :return: The on_click function
-        :rtype: callable | None
+        :rtype: Callable | None
         """
         return self._get_event_handler("click")
 
     @on_click.setter
-    def on_click(self, handler: Optional[Callable]) -> None:
+    @beartype
+    def on_click(self, handler: Callable | None) -> None:
         """ Set a function to be called when the menu item is clicked.
 
         :param handler: The function to call
-        :type handler: callable | None
+        :type handler: Callable | None
         """
         self._add_event_handler("click", handler)
 
     # sub_menu_items
     @property
-    def sub_menu_items(self) -> List[MenuItem]:
+    @beartype
+    def sub_menu_items(self) -> list['MenuItem']:
         """ Get the sub menu items.
 
         :return: The sub menu items
@@ -610,7 +643,8 @@ class MenuItem(Control):
         return self.__sub_menu_items
 
     @sub_menu_items.setter
-    def sub_menu_items(self, value: List[MenuItem]) -> None:
+    @beartype
+    def sub_menu_items(self, value: list['MenuItem']) -> None:
         """ Set the sub menu items.
 
         :param value: The list of sub menu items
@@ -620,6 +654,7 @@ class MenuItem(Control):
 
     # text
     @property
+    @beartype
     def text(self) -> str | None:
         """ Get the text.
 
@@ -629,6 +664,7 @@ class MenuItem(Control):
         return self._get_attr("text")
 
     @text.setter
+    @beartype
     def text(self, value: str | None) -> None:
         """ Set the text.
 
@@ -639,6 +675,7 @@ class MenuItem(Control):
 
     # secondary_text
     @property
+    @beartype
     def secondary_text(self) -> str | None:
         """ Get the secondary text.
 
@@ -648,6 +685,7 @@ class MenuItem(Control):
         return self._get_attr("secondaryText")
 
     @secondary_text.setter
+    @beartype
     def secondary_text(self, value: str | None) -> None:
         """ Set the secondary text.
 
@@ -658,6 +696,7 @@ class MenuItem(Control):
 
     # url
     @property
+    @beartype
     def url(self) -> str | None:
         """ Get the url.
 
@@ -667,6 +706,7 @@ class MenuItem(Control):
         return self._get_attr("url")
 
     @url.setter
+    @beartype
     def url(self, value: str | None) -> None:
         """ Set the url.
 
@@ -677,6 +717,7 @@ class MenuItem(Control):
 
     # new_window
     @property
+    @beartype
     def new_window(self) -> bool | None:
         """ Get the new window attribute.
 
@@ -697,6 +738,7 @@ class MenuItem(Control):
 
     # icon
     @property
+    @beartype
     def icon(self) -> str | None:
         """ Get the icon.
 
@@ -706,6 +748,7 @@ class MenuItem(Control):
         return self._get_attr("icon")
 
     @icon.setter
+    @beartype
     def icon(self, value: str | None) -> None:
         """ Set the icon.
 
@@ -716,6 +759,7 @@ class MenuItem(Control):
 
     # icon_color
     @property
+    @beartype
     def icon_color(self) -> str | None:
         """ Get the icon color.
 
@@ -725,6 +769,7 @@ class MenuItem(Control):
         return self._get_attr("iconColor")
 
     @icon_color.setter
+    @beartype
     def icon_color(self, value: str | None) -> None:
         """ Set the icon color.
 
@@ -735,6 +780,7 @@ class MenuItem(Control):
 
     # icon_only
     @property
+    @beartype
     def icon_only(self) -> bool | None:
         """ Get the icon only attribute.
 
@@ -755,6 +801,7 @@ class MenuItem(Control):
 
     # split
     @property
+    @beartype
     def split(self) -> bool | None:
         """ Get the split attribute.
 
@@ -775,6 +822,7 @@ class MenuItem(Control):
 
     # divider
     @property
+    @beartype
     def divider(self) -> bool | None:
         """ Get the divider attribute.
 
@@ -793,7 +841,8 @@ class MenuItem(Control):
         """
         self._set_attr("divider", value)
 
-    def _get_children(self) -> List[MenuItem]:
+    @beartype
+    def _get_children(self) -> list['MenuItem']:
         """ Private function to get the sub menu items.
 
         :return: The sub menu items
