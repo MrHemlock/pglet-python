@@ -1,7 +1,8 @@
 """ Module for Checkbox class. """
 
 from __future__ import annotations
-from typing import Literal, Optional, Callable, Any
+from typing import Literal, Any
+from collections.abc import Callable
 from beartype import beartype
 from pglet.control import Control
 
@@ -14,36 +15,36 @@ class Checkbox(Control):
     mutually exclusive options (checked or unchecked, on or off).
 
     :param label: Label to display next to the checkbox. Defaults to None.
-    :type label: str, optional
+    :type label: str | None, optional
     :param id: ID of the checkbox. Defaults to None.
-    :type id: str, optional
+    :type id: str | None, optional
     :param value: Current value of the checkbox. Defaults to False.
-    :type value: bool, optional
+    :type value: bool | None, optional
     :param value_field: Specify which field to bind the value of checkbox when used
         inside Grid column template. Defaults to None.
-    :type value_field: str, optional
+    :type value_field: str | None, optional
     :param box_side: Allows you to set the checkbox to be at the before (start) or
         after (end) the label. Defaults to "start".
-    :type box_side: str, optional
+    :type box_side: str | None, optional
     :param focused: Whether the checkbox is focused. Defaults to False.
-    :type focused: bool, optional
+    :type focused: bool | None, optional
     :param data: Additional data attached to the control. The value is passed in change
         event data along with a checkbox state. Defaults to None.
-    :type data: object, optional
+    :type data: object | None, optional
     :param width: Width of the checkbox. Defaults to None.
-    :type width: int, optional
+    :type width: int | str | None, optional
     :param height: Height of the checkbox. Defaults to None.
-    :type height: int, optional
+    :type height: int | str | None, optional
     :param padding: Padding of the checkbox. Defaults to None.
-    :type padding: int, optional
+    :type padding: int | str | None, optional
     :param margin: Margin of the checkbox. Defaults to None.
-    :type margin: int, optional
+    :type margin: int | str | None, optional
     :param on_change: Fires when the state of the checkbox is changed. Defaults to None.
-    :type on_change: callable, optional
+    :type on_change: Callable | None, optional
     :param visible: Whether the checkbox is visible. Defaults to True.
-    :type visible: bool, optional
+    :type visible: bool | None, optional
     :param disabled: Whether the checkbox is disabled. Defaults to False.
-    :type disabled: bool, optional
+    :type disabled: bool | None, optional
     """
 
     def __init__(
@@ -55,11 +56,11 @@ class Checkbox(Control):
         box_side: BOX_SIDE = None,
         focused: bool | None = None,
         data: Any = None,
-        width: int | None = None,
-        height: int | None = None,
-        padding: int | None = None,
-        margin: int | None = None,
-        on_change: Optional[Callable] = None,
+        width: int | str | None = None,
+        height: int | str | None = None,
+        padding: int | str | None = None,
+        margin: int | str | None = None,
+        on_change: Callable | None = None,
         visible: bool | None = None,
         disabled: bool | None = None,
     ) -> None:
@@ -94,21 +95,21 @@ class Checkbox(Control):
     # on_change
     @property
     @beartype
-    def on_change(self) -> Optional[Callable]:
+    def on_change(self) -> Callable | None:
         """ Returns the handler for the change event.
 
         :return: The handler for the change event.
-        :rtype: callable
+        :rtype: Callable | None
         """
         return self._get_event_handler("change")
 
     @on_change.setter
     @beartype
-    def on_change(self, handler: Optional[Callable]) -> None:
+    def on_change(self, handler: Callable | None) -> None:
         """ Sets the handler for the change event.
 
         :param handler: The handler for the change event.
-        :type handler: callable
+        :type handler: Callable | None
         """
         self._add_event_handler("change", handler)
 
@@ -119,7 +120,7 @@ class Checkbox(Control):
         """ Returns the value of the checkbox.
 
         :return: The value of the checkbox.
-        :rtype: bool
+        :rtype: bool | None
         """
         return self._get_attr("value", data_type="bool", def_value=False)
 
@@ -129,7 +130,7 @@ class Checkbox(Control):
         """ Sets the value of the checkbox.
 
         :param value: The value of the checkbox.
-        :type value: bool
+        :type value: bool | None
         """
         self._set_attr("value", value)
 
@@ -141,7 +142,7 @@ class Checkbox(Control):
         inside Grid column template.
 
         :return: The value of the checkbox.
-        :rtype: str
+        :rtype: str | None
         """
         return self._get_attr("value")
 
@@ -152,7 +153,7 @@ class Checkbox(Control):
         inside Grid column template.
 
         :param value: The value of the checkbox.
-        :type value: str
+        :type value: str | None
         """
         self._set_attr("value", value)
         if value is not None:
@@ -165,7 +166,7 @@ class Checkbox(Control):
         """ Returns the label of the checkbox.
         
         :return: The label of the checkbox.
-        :rtype: str
+        :rtype: str | None
         """
         return self._get_attr("label")
 
@@ -175,14 +176,19 @@ class Checkbox(Control):
         """ Sets the label of the checkbox.
         
         :param value: The label of the checkbox.
-        :type value: str
+        :type value: str | None
         """
         self._set_attr("label", value)
 
     # box_side
     @property
     @beartype
-    def box_side(self):
+    def box_side(self) -> BOX_SIDE:
+        """ Returns the side of the box.
+        
+        :return: The side of the box.
+        :rtype: BOX_SIDE
+        """
         return self._get_attr("boxSide")
 
     @box_side.setter
@@ -191,7 +197,7 @@ class Checkbox(Control):
         """ Sets the box side of the checkbox.
         
         :param value: The box side of the checkbox.
-        :type value: str
+        :type value: BOX_SIDE
         """
         self._set_attr("boxSide", value)
 
@@ -202,7 +208,7 @@ class Checkbox(Control):
         """ Returns the focused state of the checkbox.
         
         :return: The focused state of the checkbox.
-        :rtype: bool
+        :rtype: bool | None
         """
         return self._get_attr("focused")
 
@@ -212,6 +218,6 @@ class Checkbox(Control):
         """ Sets the focused state of the checkbox.
         
         :param value: The focused state of the checkbox.
-        :type value: bool
+        :type value: bool | None
         """
         self._set_attr("focused", value)
