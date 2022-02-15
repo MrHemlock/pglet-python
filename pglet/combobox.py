@@ -1,7 +1,8 @@
 """ Module for the ComboBox and Option classes """
 
 from __future__ import annotations
-from typing import Literal, Optional, Callable, Any, Iterable
+from beartype.typing import Literal, Any
+from collections.abc import Callable, Iterable
 from beartype import beartype
 from pglet.control import Control
 
@@ -13,14 +14,14 @@ class Option(Control):
     """ Class for a single option in a ComboBox
 
     :param key: Option's key. text value will be used instead if key is not specified. Default is None.
-    :type key: str, optional
+    :type key: str | None, optional
     :param text: Option's display text. key value will be used instead if text is not specified. Default is None.
-    :type text: str, optional
+    :type text: str | None, optional
     :param item_type: Type of the option ("normal", "divider", "header", "selectAll", "select_all").
         Default is "normal".
-    :type item_type: str, optional
+    :type item_type: ITEM_TYPE, optional
     :param disabled: Whether the option is disabled. Default is False.
-    :type disabled: bool, optional
+    :type disabled: bool | None, optional
     """
 
     def __init__(
@@ -97,7 +98,7 @@ class Option(Control):
         """ Get the option's item type.
 
         :return: The option's item type.
-        :rtype: str | None
+        :rtype: ITEM_TYPE
         """
         return self._get_attr("itemtype")
 
@@ -107,7 +108,7 @@ class Option(Control):
         """ Set the option's item type.
 
         :param value: The option's item type.
-        :type value: str | None
+        :type value: ITEM_TYPE
         """
         self._set_attr("itemtype", value)
 
@@ -139,43 +140,43 @@ class ComboBox(Control):
     the list.
 
     :param label: Descriptive label for the combo box. Default is None.
-    :type label: str, optional
+    :type label: str | None, optional
     :param id: The id of the combo box. Default is None.
-    :type id: str, optional
+    :type id: str | None, optional
     :param value: Key value of the selected option. Default is None.
-    :type value: str, list[str], optional
+    :type value: str | None, list[str], optional
     :param placeholder: Placeholder text. Default is None.
-    :type placeholder: str, optional
+    :type placeholder: str | None, optional
     :param error_message: Error message. Default is None.
-    :type error_message: str, optional
+    :type error_message: str | None, optional
     :param on_change: Fires when the selected option changes. Default is None.
-    :type on_change: str, optional
+    :type on_change: Callable | None, optional
     :param on_focus: Fires when the combo box receives focus. Default is None.
-    :type on_focus: str, optional
+    :type on_focus: Callable | None, optional
     :param on_blur: Fires when the combo box loses focus. Default is None.
-    :type on_blur: str, optional
+    :type on_blur: Callable | None, optional
     :param options: Options for the combo box. Default is None.
-    :type options: Iterable[Option], optional
+    :type options: Iterable[Option] | None, optional
     :param width: Width of the combo box. Default is None.
-    :type width: int, optional
+    :type width: int | str | None, optional
     :param height: Height of the combo box. Default is None.
-    :type height: int, optional
+    :type height: int | str | None, optional
     :param padding: Padding for the combo box. Default is None.
-    :type padding: int, optional
+    :type padding: int | str | None, optional
     :param margin: Margin for the combo box. Default is None.
-    :type margin: int, optional
+    :type margin: int | str | None, optional
     :param visible: Whether the combo box is visible. Default is True.
-    :type visible: bool, optional
+    :type visible: bool | None, optional
     :param disabled: Whether the combo box is disabled. Default is False.
-    :type disabled: bool, optional
+    :type disabled: bool | None, optional
     :param focused: Whether the combo box is focused. Default is False.
-    :type focused: bool, optional
+    :type focused: bool | None, optional
     :param multi_select: Whether the combo box is multi-select. Default is False.
-    :type multi_select: bool, optional
+    :type multi_select: bool | None, optional
     :param allow_free_form: Whether the combo box allows free form text. Default is False.
-    :type allow_free_form: bool, optional
+    :type allow_free_form: bool | None, optional
     :param auto_complete: Whether the combo box auto completes. Default is False.
-    :type auto_complete: bool, optional
+    :type auto_complete: bool | None, optional
     :param data: Additional data attached to the control. The value is passed in change event data
         along with a ComboBox selected value. Defaults to None.
     :type data: Any, optional
@@ -188,14 +189,14 @@ class ComboBox(Control):
         value: str | list[str] | None = None,
         placeholder: str | None = None,
         error_message: str | None = None,
-        on_change: Optional[Callable] = None,
-        on_focus: Optional[Callable] = None,
-        on_blur: Optional[Callable] = None,
-        options: Iterable[Option] = None,
-        width: int | None = None,
-        height: int | None = None,
-        padding: int | None = None,
-        margin: int | None = None,
+        on_change: Callable | None = None,
+        on_focus: Callable | None = None,
+        on_blur: Callable | None = None,
+        options: Iterable[Option] | None = None,
+        width: int | str | None = None,
+        height: int | str | None = None,
+        padding: int | str | None = None,
+        margin: int | str | None = None,
         visible: bool | None = None,
         disabled: bool | None = None,
         focused: bool | None = None,
@@ -226,7 +227,7 @@ class ComboBox(Control):
         self.on_change = on_change
         self.on_focus = on_focus
         self.on_blur = on_blur
-        self.__options = []
+        self.__options: list[Option] = []
         if options is not None:
             for option in options:
                 self.__options.append(option)
@@ -253,32 +254,32 @@ class ComboBox(Control):
 
     @options.setter
     @beartype
-    def options(self, value: list[Option]) -> None:
+    def options(self, value: list[Option] | None) -> None:
         """ Sets the options for the combo box.
 
         :param value: The options for the combo box.
-        :type value: list[Option]
+        :type value: list[Option] | None
         """
         self.__options = value
 
     # on_change
     @property
     @beartype
-    def on_change(self) -> Optional[Callable] | None:
+    def on_change(self) -> Callable | None:
         """ Returns the on change callback.
 
         :return: The on change callback.
-        :rtype: Optional[Callable]
+        :rtype: Callable | None
         """
         return self._get_event_handler("change")
 
     @on_change.setter
     @beartype
-    def on_change(self, handler: Optional[Callable]) -> None:
+    def on_change(self, handler: Callable | None) -> None:
         """ Sets the on change callback.
 
         :param handler: The on change callback.
-        :type handler: Optional[Callable]
+        :type handler: Callable | None
         """
         self._add_event_handler("change", handler)
 
@@ -467,7 +468,7 @@ class ComboBox(Control):
     # on_focus
     @property
     @beartype
-    def on_focus(self) -> Optional[Callable]:
+    def on_focus(self) -> Callable | None:
         """ Returns the on focus event.
 
         :return: The on focus event.
@@ -477,7 +478,7 @@ class ComboBox(Control):
 
     @on_focus.setter
     @beartype
-    def on_focus(self, handler: Optional[Callable]) -> None:
+    def on_focus(self, handler: Callable | None) -> None:
         """ Sets the on focus event.
 
         :param handler: The on focus event.
@@ -488,7 +489,7 @@ class ComboBox(Control):
     # on_blur
     @property
     @beartype
-    def on_blur(self) -> Optional[Callable]:
+    def on_blur(self) -> Callable | None:
         """ Returns the on blur event.
 
         :return: The on blur event.
@@ -498,7 +499,7 @@ class ComboBox(Control):
 
     @on_blur.setter
     @beartype
-    def on_blur(self, handler: Optional[Callable]) -> None:
+    def on_blur(self, handler: Callable | None) -> None:
         """ Sets the on blur event.
 
         :param handler: The on blur event.
