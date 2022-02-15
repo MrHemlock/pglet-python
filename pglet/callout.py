@@ -1,6 +1,11 @@
-from typing import Literal, Optional
+""" Module for the Callout class """
+
+from __future__ import annotations
+from typing import Literal
+from collections.abc import Callable, Iterable
 from beartype import beartype
 from pglet.control import Control
+
 
 POSITION = Literal[
     None,
@@ -22,26 +27,76 @@ POSITION = Literal[
 
 
 class Callout(Control):
+    """ An anchored tip that can be used to teach people or guide them through
+    the app without blocking them.
+
+    :param id: callout id, defaults to None
+    :type id: str, optional
+    :param target: Id of the control to which the collout is attached. Defaults
+        to None
+    :type target: str, optional
+    :param position: The position of the callout relative to the target control:
+        topLeft, topCenter, topRight, topAuto, bottomLeft, bottomCenter, bottomRight,
+        bottomAuto (default), leftTop, leftCenter, leftBottom, rightTop, rightCenter,
+        rightBottom. Defaults to BottomAuto
+    :type position: str, optional
+    :param gap: The gap between the callout and the target control. Defaults to 0
+    :type gap: int | str | None, optional
+    :param beak: Whether the beak is visible. Defaults to True
+    :type beak: bool, optional
+    :param beak_width: Beak width. Defaults to 16
+    :type beak_width: int | str | None, optional
+    :param page_padding: The minimum distance the callout will be away from the edge
+        of the screen. Defaults to 8
+    :type page_padding: int | str | None, optional
+    :param focus: If true then the callout will attempt to focus the first focusable
+        element that it contains. If it doesn't find an element, no focus will be set
+        and the method will return false. This means that it's the contents responsibility
+        to either set focus or have focusable items. Defaults to False.
+    :type focus: bool, optional
+    :param cover: If true the position returned will have the menu element cover the target.
+        If false then it will position next to the target. Defaults to False.
+    :type cover: bool, optional
+    :param visible: Whether the callout is visible or not. Defaults to False.
+    :type visible: bool, optional
+    :param controls: List of controls to add to the callout. Defaults to None.
+    :type controls: list, optional
+    :param on_dismiss: Fires when the callout is dismissed. Callout is dismissed when a
+        user clicks outside of the callout area. Defaults to None.
+    :type on_dismiss: Callable | None, optional
+    :param width: The width of the callout. Defaults to None.
+    :type width: int | str | None, optional
+    :param height: The height of the callout. Defaults to None.
+    :type height: int | str | None, optional
+    :param padding: The padding of the callout. Defaults to None.
+    :type padding: int | str | None, optional
+    :param margin: The margin of the callout. Defaults to None.
+    :type margin: int | str | None, optional
+    :param disabled: Whether the callout is disabled or not. Defaults to False.
+    :type disabled: bool, optional
+    """
+
     def __init__(
         self,
-        id=None,
-        target=None,
+        id: str | None = None,
+        target: str | None = None,
         position: POSITION = None,
-        gap=None,
-        beak=None,
-        beak_width=None,
-        page_padding=None,
-        focus=None,
-        cover=None,
-        visible=None,
-        controls=None,
-        on_dismiss=None,
-        width=None,
-        height=None,
-        padding=None,
-        margin=None,
-        disabled=None,
-    ):
+        gap: int | str | None = None,
+        beak: bool | None = None,
+        beak_width: int | str | None = None,
+        page_padding: int | str | None = None,
+        focus: bool | None = None,
+        cover: bool | None = None,
+        visible: bool | None = None,
+        controls: Iterable[str] | None = None,
+        on_dismiss: Callable | None = None,
+        width: int | str | None = None,
+        height: int | str | None = None,
+        padding: int | str | None = None,
+        margin: int | str | None = None,
+        disabled: bool | None = None,
+    ) -> None:
+        """ Initialize a new Callout. """
 
         Control.__init__(
             self,
@@ -63,110 +118,235 @@ class Callout(Control):
         self.focus = focus
         self.cover = cover
         self.on_dismiss = on_dismiss
-        self.__controls = []
-        if controls != None:
+        self.__controls: list[str] = []
+        if controls is not None:
             for control in controls:
                 self.__controls.append(control)
 
-    def _get_control_name(self):
+    @beartype
+    def _get_control_name(self) -> str:
+        """ Get the name of the control type.
+
+        :return: The name of the control type.
+        :rtype: str
+        """
         return "callout"
 
     # controls
     @property
-    def controls(self):
+    @beartype
+    def controls(self) -> list[str]:
+        """ Get the controls.
+
+        :return: The list of controls.
+        :rtype: list[str]
+        """
         return self.__controls
 
     @controls.setter
-    def controls(self, value):
+    @beartype
+    def controls(self, value: list[str]) -> None:
+        """ Set the controls.
+
+        :param value: The list of controls.
+        :type value: list[str]
+        """
         self.__controls = value
 
     # on_dismiss
     @property
-    def on_dismiss(self):
+    @beartype
+    def on_dismiss(self) -> Callable | None:
+        """ Get the on_dismiss callback.
+
+        :return: The on_dismiss callback.
+        :rtype: Callable | None
+        """
         return self._get_event_handler("dismiss")
 
     @on_dismiss.setter
-    def on_dismiss(self, handler):
+    @beartype
+    def on_dismiss(self, handler: Callable | None) -> None:
+        """ Set the on_dismiss callback.
+
+        :param handler: The on_dismiss callback.
+        :type handler: Callable | None
+        """
         self._add_event_handler("dismiss", handler)
 
     # target
     @property
-    def target(self):
+    @beartype
+    def target(self) -> str | None:
+        """ Get the target.
+
+        :return: The target.
+        :rtype: str | None
+        """
         return self._get_attr("target")
 
     @target.setter
-    def target(self, value):
+    @beartype
+    def target(self, value: str | None) -> None:
+        """ Set the target.
+
+        :param value: The target.
+        :type value: str
+        """
         self._set_attr("target", value)
 
     # position
     @property
-    def position(self):
+    @beartype
+    def position(self) -> POSITION:
+        """ Get the position.
+
+        :return: The position.
+        :rtype: str | None
+        """
         return self._get_attr("position")
 
     @position.setter
     @beartype
-    def position(self, value: POSITION):
+    def position(self, value: POSITION) -> None:
+        """ Set the position.
+
+        :param value: The position.
+        :type value: str | None
+        """
         self._set_attr("position", value)
 
     # gap
     @property
-    def gap(self):
+    @beartype
+    def gap(self) -> int | str | None:
+        """ Get the gap.
+
+        :return: The gap.
+        :rtype: int | str | None
+        """
         return self._get_attr("gap")
 
     @gap.setter
     @beartype
-    def gap(self, value: Optional[int]):
+    def gap(self, value: int | str | None) -> None:
+        """ Set the gap.
+
+        :param value: The gap.
+        :type value: int | str | None
+        """
         self._set_attr("gap", value)
 
     # beak
     @property
-    def beak(self):
+    @beartype
+    def beak(self) -> bool | None:
+        """ Get the beak.
+
+        :return: The beak.
+        :rtype: bool
+        """
         return self._get_attr("beak")
 
     @beak.setter
     @beartype
-    def beak(self, value: Optional[bool]):
+    def beak(self, value: bool | None) -> None:
+        """ Set the beak.
+
+        :param value: The beak.
+        :type value: bool
+        """
         self._set_attr("beak", value)
 
     # beak_width
     @property
-    def beak_width(self):
+    @beartype
+    def beak_width(self) -> int | str | None:
+        """ Get the beak_width.
+
+        :return: The beak_width.
+        :rtype: int | str | None
+        """
         return self._get_attr("beakWidth")
 
     @beak_width.setter
     @beartype
-    def beak_width(self, value: Optional[int]):
+    def beak_width(self, value: int | str | None) -> None:
+        """ Set the beak_width.
+
+        :param value: The beak_width.
+        :type value: int | str | None
+        """
         self._set_attr("beakWidth", value)
 
     # page_padding
     @property
-    def page_padding(self):
+    @beartype
+    def page_padding(self) -> int | str | None:
+        """ Get the page_padding.
+
+        :return: The page_padding.
+        :rtype: int | str | None
+        """
         return self._get_attr("pagePadding")
 
     @page_padding.setter
     @beartype
-    def page_padding(self, value: Optional[int]):
+    def page_padding(self, value: int | str | None) -> None:
+        """ Set the page_padding.
+
+        :param value: The page_padding.
+        :type value: int | str | None
+        """
         self._set_attr("pagePadding", value)
 
     # focus
     @property
-    def focus(self):
+    @beartype
+    def focus(self) -> bool | None:
+        """ Get the focus.
+
+        :return: The focus.
+        :rtype: bool
+        """
         return self._get_attr("focus")
 
     @focus.setter
     @beartype
-    def focus(self, value: Optional[bool]):
+    def focus(self, value: bool | None) -> None:
+        """ Set the focus.
+
+        :param value: The focus.
+        :type value: bool
+        """
         self._set_attr("focus", value)
 
     # cover
     @property
-    def cover(self):
+    @beartype
+    def cover(self) -> bool | None:
+        """ Get the cover.
+
+        :return: The cover.
+        :rtype: bool
+        """
         return self._get_attr("cover")
 
     @cover.setter
     @beartype
-    def cover(self, value: Optional[bool]):
+    def cover(self, value: bool | None) -> None:
+        """ Set the cover.
+
+        :param value: The cover.
+        :type value: bool
+        """
         self._set_attr("cover", value)
 
-    def _get_children(self):
+    @beartype
+    def _get_children(self) -> list[str]:
+        """ Get the controls of the callout.
+
+        :return: The controls of the callout.
+        :rtype: list[str]
+        """
         return self.__controls
