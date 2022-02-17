@@ -1,5 +1,6 @@
 """ Module for the dataclasses of the pglet server. """
 
+from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 from beartype import beartype
