@@ -1,10 +1,14 @@
+""" Module for the Control class """
+
+from __future__ import annotations
 import datetime as dt
 import threading
-from typing import Literal, Optional
+from typing import Literal, Any, Optional, Type
+from collections.abc import Callable
 from beartype import beartype
 from difflib import SequenceMatcher
+from pglet.protocol import Command, PageCommandResponsePayload
 
-from pglet.protocol import Command
 
 BORDER_STYLE = Literal[
     None, "dotted", "dashed", "solid", "double", "groove", "ridge", "inset", "outset"
@@ -29,22 +33,42 @@ TEXT_ALIGN = Literal[None, "left", "right", "center", "justify"]
 
 
 class Control:
+    """ Control class for all widgets
+
+    :param id: The id of the control
+    :type id: str, optional
+    :param width: The width of the control
+    :type width: int | str | None, optional
+    :param height: The height of the control
+    :type height: int | str | None, optional
+    :param padding: The padding of the control
+    :type padding: int | str | None, optional
+    :param margin: The margin of the control
+    :type margin: int | str | None, optional
+    :param visible: Whether the control is visible
+    :type visible: bool, optional
+    :param disabled: Whether the control is disabled
+    :type disabled: bool, optional
+    :param data: The data of the control
+    :type data: Any, optional
+    """
+
     def __init__(
         self,
-        id=None,
-        width=None,
-        height=None,
-        padding=None,
-        margin=None,
-        visible=None,
-        disabled=None,
-        data=None,
+        id: str | None = None,
+        width: str | int | None = None,
+        height: str | int | None = None,
+        padding: str | int | None = None,
+        margin: str | int | None = None,
+        visible: bool | None = None,
+        disabled: bool | None = None,
+        data: Any = None
     ):
-        self.__page = None
-        self.__attrs = {}
-        self.__previous_children = []
+        self.__page: Any = None
+        self.__attrs: dict = {}
+        self.__previous_children: list = []
         self.id = id
-        self.__uid = None
+        self.__uid: str | None = None
         if id == "page":
             self.__uid = "page"
         self.width = width
@@ -54,162 +78,360 @@ class Control:
         self.visible = visible
         self.disabled = disabled
         self.data = data
-        self.__event_handlers = {}
-        self._lock = threading.Lock()
+        self.__event_handlers: dict = {}
+        self._lock: threading.Lock = threading.Lock()
 
-    def _get_children(self):
+    @beartype
+    def _get_children(self) -> list:
+        """ Returns an empty list of children
+
+        :return: Empty list
+        :rtype: list
+        """
         return []
 
-    def _get_control_name(self):
+    @beartype
+    def _get_control_name(self) -> str:
+        """ Returns the name of the control """
         raise Exception("_getControlName must be overridden in inherited class")
 
-    def _add_event_handler(self, event_name, handler):
+    @beartype
+    def _add_event_handler(self, event_name: str, handler: Callable | None) -> None:
+        """ Adds an event handler to the control
+
+        :param event_name: The name of the event
+        :type event_name: str
+        :param handler: The handler of the event
+        :type handler: Callable | None
+        """
         self.__event_handlers[event_name] = handler
 
-    def _get_event_handler(self, event_name):
+    @beartype
+    def _get_event_handler(self, event_name: str) -> Callable | None:
+        """ Returns the event handler of the control
+
+        :param event_name: The name of the event
+        :type event_name: str
+        :return: The event handler of the control
+        :rtype: Callable | None
+        """
         return self.__event_handlers.get(event_name)
 
-    def _get_attr(self, name, def_value=None, data_type="string"):
+    @beartype
+    def _get_attr(self, name: str, def_value: Any = None, data_type: str = "string") -> Any:
+        """ Returns the attribute of the control
+
+        :param name: The name of the attribute
+        :type name: str
+        :param def_value: The default value of the attribute
+        :type def_value: str | None
+        :param data_type: The data type of the attribute
+        :type data_type: str
+        :return: The attribute of the control
+        :rtype: Any
+        """
         name = name.lower()
-        if not name in self.__attrs:
+        if name not in self.__attrs:
             return def_value
 
         s_val = self.__attrs[name][0]
-        if data_type == "bool" and s_val != None and isinstance(s_val, str):
+        if data_type == "bool" and s_val is not None and isinstance(s_val, str):
             return s_val.lower() == "true"
-        elif data_type == "float" and s_val != None and isinstance(s_val, str):
+        elif data_type == "float" and s_val is not None and isinstance(s_val, str):
             return float(s_val)
         else:
             return s_val
 
-    def _set_attr(self, name, value, dirty=True):
+    @beartype
+    def _set_attr(self, name: str, value: Any, dirty: bool = True) -> None:
+        """ Sets the attribute of the control.
+
+        :param name: The name of the attribute
+        :type name: str
+        :param value: The value of the attribute
+        :type value: Any
+        :param dirty: Whether the control is dirty
+        :type dirty: bool
+        """
         self._set_attr_internal(name, value, dirty)
 
-    def _set_attr_internal(self, name, value, dirty=True):
+    @beartype
+    def _set_attr_internal(self, name: str, value: Any, dirty: bool = True) -> None:
+        """ Sets the internal attribute of the control.
+
+        :param name: The name of the attribute
+        :type name: str
+        :param value: The value of the attribute
+        :type value: Any
+        :param dirty: Whether the control is dirty
+        :type dirty: bool
+        """
         name = name.lower()
         orig_val = self.__attrs.get(name)
 
-        if orig_val == None and value == None:
+        if orig_val is None and value is None:
             return
 
-        if value == None:
+        if value is None:
             value = ""
 
-        if orig_val == None or orig_val[0] != value:
+        if orig_val is None or orig_val[0] != value:
             self.__attrs[name] = (value, dirty)
 
     # event_handlers
     @property
-    def event_handlers(self):
+    @beartype
+    def event_handlers(self) -> dict:
+        """ Returns the event handlers of the control
+
+        :return: The event handlers of the control
+        :rtype: dict
+        """
         return self.__event_handlers
 
     # _previous_children
     @property
-    def _previous_children(self):
+    @beartype
+    def _previous_children(self) -> list:
+        """ Returns the previous children of the control
+
+        :return: The previous children of the control
+        :rtype: list
+        """
         return self.__previous_children
 
     # page
     @property
-    def page(self):
+    @beartype
+    def page(self) -> Any:
+        """ Returns the page of the control
+
+        :return: The page of the control
+        :rtype: str | None
+        """
         return self.__page
 
     @page.setter
-    def page(self, page):
+    @beartype
+    def page(self, page: Any) -> None:
+        """ Sets the page of the control
+
+        :param page: The page of the control
+        :type page: str | None
+        """
         self.__page = page
 
     # id
     @property
-    def id(self):
+    @beartype
+    def id(self) -> str | None:
+        """ Returns the id of the control
+
+        :return: The id of the control
+        :rtype: str | None
+        """
         return self._get_attr("id")
 
     # uid
     @property
-    def uid(self):
+    @beartype
+    def uid(self) -> str | None:
+        """ Returns the uid of the control
+
+        :return: The uid of the control
+        :rtype: str | None
+        """
         return self.__uid
 
     @id.setter
-    def id(self, value):
+    @beartype
+    def id(self, value: str | None) -> None:
+        """ Sets the id of the control
+
+        :param value: The id of the control
+        :type value: str | None
+        """
         self._set_attr("id", value)
 
     # width
     @property
-    def width(self):
+    @beartype
+    def width(self) -> str | int | None:
+        """ Returns the width of the control
+
+        :return: The width of the control
+        :rtype: str | int | None
+        """
         return self._get_attr("width")
 
     @width.setter
-    def width(self, value):
+    @beartype
+    def width(self, value: str | int | None) -> None:
+        """ Sets the width of the control
+
+        :param value: The width of the control
+        :type value: str | int | None
+        """
         self._set_attr("width", value)
 
     # height
     @property
-    def height(self):
+    @beartype
+    def height(self) -> str | int | None:
+        """ Returns the height of the control
+
+        :return: The height of the control
+        :rtype: str | int | None
+        """
         return self._get_attr("height")
 
     @height.setter
-    def height(self, value):
+    @beartype
+    def height(self, value: str | int | None) -> None:
+        """ Sets the height of the control
+
+        :param value: The height of the control
+        :type value: str | int | None
+        """
         self._set_attr("height", value)
 
     # padding
     @property
-    def padding(self):
+    @beartype
+    def padding(self) -> str | int | None:
+        """ Returns the padding of the control
+
+        :return: The padding of the control
+        :rtype: str | int | None
+        """
         return self._get_attr("padding")
 
     @padding.setter
-    def padding(self, value):
+    @beartype
+    def padding(self, value: str | int | None) -> None:
+        """ Sets the padding of the control
+
+        :param value: The padding of the control
+        :type value: str | int | None
+        """
         self._set_attr("padding", value)
 
     # margin
     @property
-    def margin(self):
+    @beartype
+    def margin(self) -> str | int | None:
+        """ Returns the margin of the control
+
+        :return: The margin of the control
+        :rtype: str | int | None
+        """
         return self._get_attr("margin")
 
     @margin.setter
-    def margin(self, value):
+    @beartype
+    def margin(self, value: str | int | None) -> None:
+        """ Sets the margin of the control
+
+        :param value: The margin of the control
+        :type value: str | int | None
+        """
         self._set_attr("margin", value)
 
     # visible
     @property
-    def visible(self):
+    @beartype
+    def visible(self) -> bool | None:
+        """ Returns if the control is visible
+
+        :return: If the control is visible
+        :rtype: bool | None
+        """
         return self._get_attr("visible")
 
     @visible.setter
     @beartype
-    def visible(self, value: Optional[bool]):
+    def visible(self, value: bool | None) -> None:
+        """ Sets if the control is visible
+
+        :param value: If the control is visible
+        :type value: bool | None
+        """
         self._set_attr("visible", value)
 
     # disabled
     @property
-    def disabled(self):
+    @beartype
+    def disabled(self) -> bool | None:
+        """ Returns if the control is disabled
+
+        :return: If the control is disabled
+        :rtype: bool | None
+        """
         return self._get_attr("disabled")
 
     @disabled.setter
     @beartype
-    def disabled(self, value: Optional[bool]):
+    def disabled(self, value: bool | None) -> None:
+        """ Sets if the control is disabled
+
+        :param value: If the control is disabled
+        :type value: bool | None
+        """
         self._set_attr("disabled", value)
 
     # data
     @property
-    def data(self):
+    @beartype
+    def data(self) -> Any:
+        """ Returns the data of the control
+
+        :return: The data of the control
+        :rtype: Any
+        """
         return self._get_attr("data")
 
     @data.setter
-    def data(self, value):
+    @beartype
+    def data(self, value: Any) -> None:
+        """ Sets the data of the control
+
+        :param value: The data of the control
+        :type value: Any
+        """
         self._set_attr("data", value)
 
     # public methods
-    def update(self):
+    @beartype
+    def update(self) -> None:
+        """ Updates the control """
         if not self.__page:
             raise Exception("Control must be added to the page first.")
         self.__page.update(self)
 
-    def clean(self):
+    def clean(self) -> PageCommandResponsePayload:
+        """ Cleans the control.
+
+        :return: The response payload
+        :rtype: PageCommandResponsePayload
+        """
+        if not self.__page:
+            raise Exception("Control must be added to the page first.")
         with self._lock:
             self._previous_children.clear()
             for child in self._get_children():
                 self._remove_control_recursively(self.__page.index, child)
             return self.__page._send_command("clean", [self.uid])
 
-    def build_update_commands(self, index, added_controls, commands):
+    def build_update_commands(self, index: dict[str | None, Any], added_controls: list, commands: list) -> None:
+        """ Builds the update commands for the control
+
+        :param index: The index of the control
+        :type index: dict[str | None, Page]
+        :param added_controls: The added controls
+        :type added_controls: list
+        :param commands: The commands
+        :type commands: list
+        """
         update_cmd = self._get_cmd_attrs(update=True)
 
         if len(update_cmd.attrs) > 0:
@@ -300,7 +522,14 @@ class Control:
         self.__previous_children.clear()
         self.__previous_children.extend(current_children)
 
-    def _remove_control_recursively(self, index, control):
+    def _remove_control_recursively(self, index: dict[str | None, Any], control: Any) -> None:
+        """ Removes a control from the control
+
+        :param index: The index of the control
+        :type index: dict[str | None, Page]
+        :param control: The control
+        :type control: Any
+        """
         for child in control._get_children():
             self._remove_control_recursively(index, child)
 
@@ -308,10 +537,26 @@ class Control:
             del index[control.__uid]
 
     # private methods
-    def get_cmd_str(self, indent=0, index=None, added_controls=None):
+    def get_cmd_str(
+            self,
+            indent: int = 0,
+            index: dict[str | None, Any] = None,
+            added_controls: list = None
+    ) -> list[Command]:
+        """ Returns a list of commands to update the control
+
+        :param indent: The indentation level
+        :type indent: int
+        :param index: The index of the control
+        :type index: dict[str | None, Page]
+        :param added_controls: The list of added controls
+        :type added_controls: list
+        :return: The list of commands
+        :rtype: list[Command]
+        """
 
         # remove control from index
-        if self.__uid and index != None and self.__uid in index:
+        if self.__uid and index is not None and self.__uid in index:
             del index[self.__uid]
 
         commands = []
@@ -322,7 +567,7 @@ class Control:
         command.values.append(self._get_control_name())
         commands.append(command)
 
-        if added_controls != None:
+        if added_controls is not None:
             added_controls.append(self)
 
         # controls
@@ -338,7 +583,15 @@ class Control:
 
         return commands
 
-    def _get_cmd_attrs(self, update=False):
+    def _get_cmd_attrs(self, update: bool = False) -> Command:
+        """ Returns the command attribute
+
+        :param update: If the command is an update. Default is False
+        :type update: bool, optional
+        :return: The command attributes
+        :rtype: Command
+        """
+
         command = Command(0, None, [], {}, [], [])
 
         if update and not self.__uid:
@@ -353,7 +606,7 @@ class Control:
 
             val = self.__attrs[attrName][0]
             sval = ""
-            if val == None:
+            if val is None:
                 continue
             elif isinstance(val, bool):
                 sval = str(val).lower()
@@ -365,7 +618,7 @@ class Control:
             self.__attrs[attrName] = (val, False)
 
         id = self.__attrs.get("id")
-        if not update and id != None:
+        if not update and id is not None:
             command.attrs["id"] = id
         elif update and len(command.attrs) > 0:
             command.values.append(self.__uid)
