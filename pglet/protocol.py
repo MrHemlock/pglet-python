@@ -7,7 +7,7 @@ from beartype import beartype
 
 
 class Actions:
-    """ Enum for the actions of the pglet server. """
+    """ 'Enum' for the actions of the pglet server. """
     REGISTER_HOST_CLIENT = "registerHostClient"
     SESSION_CREATED = "sessionCreated"
     PAGE_COMMAND_FROM_HOST = "pageCommandFromHost"
@@ -27,21 +27,20 @@ class Command:
         attrs (dict[str, str] | None): The attributes of the command.
         lines (list[str] | None): The lines of the command.
         commands (list[Any] | None): The commands of the command.
-        lis
     """
     indent: int
     name: str | None
-    values: list[str] | None = field(default_factory=list)
-    attrs: dict[str, str] | None = field(default_factory=dict)
-    lines: list[str] | None = field(default_factory=list)
-    commands: list[Any] | None = field(default_factory=list)
+    values: list[str] | None
+    attrs: dict[str, str] | None
+    lines: list[str] | None
+    commands: list[Any] | None
 
 
 @beartype
 @dataclass
 class Message:
     """ Dataclass for the messages of the pglet server.
-    
+
     Attributes:
         id (str): The id of the message.
         action (str): The action of the message.
@@ -56,7 +55,7 @@ class Message:
 @dataclass
 class PageCommandRequestPayload:
     """ Dataclass for the payload of the page command request.
-    
+
     Attributes:
         pageName (str): The name of the page.
         sessionID (str): The id of the session.
@@ -71,7 +70,7 @@ class PageCommandRequestPayload:
 @dataclass
 class PageCommandResponsePayload:
     """ Dataclass for the payload of the page command response.
-    
+
     Attributes:
         result (str): The result of the page command response.
         error (str): The error of the page command response.
@@ -84,7 +83,7 @@ class PageCommandResponsePayload:
 @dataclass
 class PageCommandsBatchRequestPayload:
     """ Dataclass for the payload of the page commands batch request.
-    
+
     Attributes:
         pageName (str): The name of the page.
         sessionID (str): The id of the session.
@@ -99,7 +98,7 @@ class PageCommandsBatchRequestPayload:
 @dataclass
 class PageCommandsBatchResponsePayload:
     """ Dataclass for the payload of the page commands batch response.
-    
+
     Attributes:
         results (list[str]): The result of the page commands batch response.
         error (str): The error of the page commands batch response.
@@ -112,7 +111,7 @@ class PageCommandsBatchResponsePayload:
 @dataclass
 class PageEventPayload:
     """ Dataclass for the payload of the page event.
-    
+
     Attributes:
         pageName (str): The name of the page.
         sessionID (str): The id of the session.
@@ -131,7 +130,7 @@ class PageEventPayload:
 @dataclass
 class RegisterHostClientRequestPayload:
     """ Dataclass for the payload of the register host client request.
-    
+
     Attributes:
         hostClientID (str | None): The id of the host client.
         pageName (str): The name of the page.
@@ -152,7 +151,7 @@ class RegisterHostClientRequestPayload:
 @dataclass
 class RegisterHostClientResponsePayload:
     """ Dataclass for the payload of the register host client response.
-    
+
     Attributes:
         hostClientID (str | None): The id of the host client.
         pageName (str): The name of the page.
@@ -169,7 +168,7 @@ class RegisterHostClientResponsePayload:
 @dataclass
 class PageSessionCreatedPayload:
     """ Dataclass for the payload of the page session created.
-    
+
     Attributes:
         pageName (str): The name of the page.
         sessionID (str): The id of the session.
